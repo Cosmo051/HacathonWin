@@ -1,5 +1,5 @@
 import pygame
-import spritesheet
+from spritesheet import *
 
 pygame.init()
 
