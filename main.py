@@ -7,6 +7,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 432
 BG = (50, 50, 50)
 BLACK = (0, 0, 0)
+WORLD_LIMIT = 1000
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
@@ -49,8 +50,6 @@ def draw_ground():
         )
 
 
-
-
 frame_arr_dog_idle = init_sprite("assets\street-animal\\1 Dog\Idle.png")
 frame_arr_cat_idle = init_sprite("assets\street-animal\\3 Cat\Idle.png")
 frame_arr_dog_walk = init_sprite("assets\street-animal\\1 Dog\Walk.png")
@@ -69,24 +68,26 @@ while run:
     # draw world
     draw_bg()
     draw_ground()
-    
+
     key = pygame.key.get_pressed()
     # get keypresses
     if key[pygame.K_LEFT] and scroll > 0:
         scroll -= 5
-    if key[pygame.K_RIGHT] and scroll < 3000:
+    if key[pygame.K_RIGHT] and scroll < WORLD_LIMIT:
         scroll += 5
 
     # state handling----------------
     if key[pygame.K_a]:
         state_dog = 1
-        scroll += 5
+        if scroll < WORLD_LIMIT:
+            scroll += 5
     else:
         state_dog = 0
 
     if key[pygame.K_l]:
         state_cat = 1
-        scroll += 5
+        if scroll < WORLD_LIMIT:
+            scroll += 5
     else:
         state_cat = 0
 
