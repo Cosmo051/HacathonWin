@@ -1,3 +1,5 @@
+import pygame
+
 def load_image(path, size):
     img = pygame.image.load(path)
     img = pygame.transform.scale(img, size)
