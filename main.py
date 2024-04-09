@@ -9,13 +9,13 @@ BG = (50, 50, 50)
 BLACK = (0, 0, 0)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Spritesheets")
+pygame.display.set_caption("Eternal")
 
 
 # background code---------------------------------------------------------
 # define game variables
 scroll = 0
-bg_index = 2
+bg_index = 3
 
 ground_image = pygame.image.load(
     f"assets/backgrounds-assets/_PNG/{bg_index}/1.png"
@@ -69,7 +69,8 @@ while run:
     # draw world
     draw_bg()
     draw_ground()
-
+    
+    key = pygame.key.get_pressed()
     # get keypresses
     if key[pygame.K_LEFT] and scroll > 0:
         scroll -= 5
@@ -77,30 +78,30 @@ while run:
         scroll += 5
 
     # state handling----------------
-    key = pygame.key.get_pressed()
     if key[pygame.K_a]:
         state_dog = 1
+        scroll += 5
     else:
         state_dog = 0
 
-    key = pygame.key.get_pressed()
     if key[pygame.K_l]:
         state_cat = 1
+        scroll += 5
     else:
         state_cat = 0
 
     # show frame image
     match state_dog:
         case 0:
-            screen.blit(frame_arr_dog_idle[i], (0, 0))
+            screen.blit(frame_arr_dog_idle[i], (0, 200))
         case 1:
-            screen.blit(frame_arr_dog_walk[i], (0, 0))
+            screen.blit(frame_arr_dog_walk[i], (0, 200))
 
     match state_cat:
         case 0:
-            screen.blit(frame_arr_cat_idle[i], (100, 0))
+            screen.blit(frame_arr_cat_idle[i], (100, 200))
         case 1:
-            screen.blit(frame_arr_cat_walk[i], (100, 0))
+            screen.blit(frame_arr_cat_walk[i], (100, 200))
     i += 1
     if i >= len(frame_arr_dog_idle):
         i = 0
