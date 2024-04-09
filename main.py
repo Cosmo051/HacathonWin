@@ -10,6 +10,10 @@ SCREEN_HEIGHT = 500
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Spritesheets")
 
+frame_arr_dog_idle = init_sprite("assets\street-animal\\1 Dog\Idle.png")
+frame_arr_cat_idle = init_sprite("assets\street-animal\\3 Cat\Idle.png")
+frame_arr_dog_walk = init_sprite("assets\street-animal\\1 Dog\Walk.png")
+frame_arr_cat_walk = init_sprite("assets\street-animal\\3 Cat\Walk.png")
 
 clock = pygame.time.Clock()
 run = True

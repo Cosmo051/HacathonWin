@@ -17,36 +17,11 @@ class SpriteSheet:
 BG = (50, 50, 50)
 BLACK = (0, 0, 0)
 
-# sprite sheet dog: --------------------------------------------------
-sprite_sheet_image_dog_idle = pygame.image.load(
-    "assets\street-animal\\1 Dog\Idle.png"
-).convert_alpha()
-sprite_sheet_dog_idle = spritesheet.SpriteSheet(sprite_sheet_image_dog_idle)
-frame_arr_dog_idle = [
-    sprite_sheet_dog_idle.get_image(i, 48, 48, 3, BLACK) for i in range(4)
-]
+def init_sprite(path):
+    # sprite sheet dog: --------------------------------------------------
+	sprite_sheet_image = pygame.image.load(path).convert_alpha()
+	sprite_sheet = SpriteSheet(sprite_sheet_image)
+	frame_arr = [sprite_sheet.get_image(i, 48, 48, 3, BLACK) for i in range(4)]
+	return frame_arr
 
-sprite_sheet_image_dog_walk = pygame.image.load(
-    "assets\street-animal\\1 Dog\Walk.png"
-).convert_alpha()
-sprite_sheet_dog_walk = spritesheet.SpriteSheet(sprite_sheet_image_dog_walk)
-frame_arr_dog_walk = [
-    sprite_sheet_dog_walk.get_image(i, 48, 48, 3, BLACK) for i in range(4)
-]
 
-# sprite sheet cat: --------------------------------------------------
-sprite_sheet_image_cat_idle = pygame.image.load(
-    "assets\street-animal\\3 Cat\Idle.png"
-).convert_alpha()
-sprite_sheet_cat_idle = spritesheet.SpriteSheet(sprite_sheet_image_cat_idle)
-frame_arr_cat_idle = [
-    sprite_sheet_cat_idle.get_image(i, 48, 48, 3, BLACK) for i in range(4)
-]
-
-sprite_sheet_image_cat_walk = pygame.image.load(
-    "assets\street-animal\\3 Cat\Walk.png"
-).convert_alpha()
-sprite_sheet_cat_walk = spritesheet.SpriteSheet(sprite_sheet_image_cat_walk)
-frame_arr_cat_walk = [
-    sprite_sheet_cat_walk.get_image(i, 48, 48, 3, BLACK) for i in range(4)
-]
