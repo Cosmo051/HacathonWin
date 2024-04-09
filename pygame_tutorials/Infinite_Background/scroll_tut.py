@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Endless Scroll")
 
 #load image
-bg = pygame.image.load("bg.png").convert()
+bg = pygame.image.load("pygame_tutorials\\Infinite_Background\\bg.png").convert()
 bg_width = bg.get_width()
 bg_rect = bg.get_rect()
 
