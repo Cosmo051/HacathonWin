@@ -14,14 +14,16 @@ pygame.display.set_caption("Parallax")
 
 #define game variables
 scroll = 0
+bg_index = 2
 
-ground_image = pygame.image.load("ground.png").convert_alpha()
+ground_image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{bg_index}/1.png").convert_alpha()
 ground_width = ground_image.get_width()
 ground_height = ground_image.get_height()
 
 bg_images = []
-for i in range(1, 6):
-  bg_image = pygame.image.load(f"plx-{i}.png").convert_alpha()
+for i in range(7, 1, -1):
+  bg_image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{bg_index}/{i}.png").convert_alpha()
+  bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
   bg_images.append(bg_image)
 bg_width = bg_images[0].get_width()
 
