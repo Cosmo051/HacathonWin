@@ -25,3 +25,5 @@ https://craftpix.net/freebies/free-fairy-tale-game-backgrounds/
 
 רועי ומרום-
 אחראים לשים את הספרייטים במשחק 
+
+רועי- להוסיף פלטפורמות למשחק
