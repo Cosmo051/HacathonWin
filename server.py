@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 
-server = ""  #ip adress we need to put in
+server = "10.0.0.27"  #ip adress we need to put in
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#blackbox

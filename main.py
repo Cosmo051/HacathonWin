@@ -40,6 +40,8 @@ def draw_bg():
         for i in bg_images:
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
+        #drawing platforms
+        screen.blit(plat, (1500-scroll*speed, 200))
 
 
 def draw_ground():
@@ -66,7 +68,7 @@ cat_x = 0
 
 dog_y = 634
 cat_y = 634
-
+plat = pygame.image.load("assets\platform-img\PNG\Tiles\\tile50.png")
 while run:
     clock.tick(10)
     # update background
@@ -77,7 +79,6 @@ while run:
     draw_ground()
 
     key = pygame.key.get_pressed()
-
     # state handling----------------
     if key[pygame.K_d]:
         state_dog = 1
