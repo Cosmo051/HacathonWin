@@ -15,3 +15,8 @@
 
 # def draw_image(screen, img, location):
 #     screen.blit(img, location)
+
+SPEED = 10
+DOG_SPRITE_WIDTH = 48
+CAT_SPRITE_WIDTH = 48
+WALKING_LIMIT = 1470#max X for cat and dog
