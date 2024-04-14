@@ -20,9 +20,6 @@ class Player:
 
 
 
-
-
-
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 864
 BG = (50, 50, 50)
