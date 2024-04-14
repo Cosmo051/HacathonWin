@@ -1,13 +1,13 @@
 import pygame
 from spritesheet import *
+from constants import *
 
 pygame.init()
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 432
+SCREEN_WIDTH = 1600
+SCREEN_HEIGHT = 864
 BG = (50, 50, 50)
 BLACK = (0, 0, 0)
-WORLD_LIMIT = 1000
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
@@ -60,6 +60,13 @@ run = True
 i = 0
 state_dog = 0
 state_cat = 0
+
+dog_x = 0
+cat_x = 0
+
+dog_y = 634
+cat_y = 634
+
 while run:
     clock.tick(10)
     # update background
@@ -70,39 +77,56 @@ while run:
     draw_ground()
 
     key = pygame.key.get_pressed()
-    # get keypresses
-    if key[pygame.K_LEFT] and scroll > 0:
-        scroll -= 5
-    if key[pygame.K_RIGHT] and scroll < WORLD_LIMIT:
-        scroll += 5
 
     # state handling----------------
-    if key[pygame.K_a]:
+    if key[pygame.K_d]:
         state_dog = 1
-        if scroll < WORLD_LIMIT:
-            scroll += 5
+        if dog_x < WALKING_LIMIT:
+            dog_x += SPEED
+    elif key[pygame.K_a]:
+        state_dog = 2
+        if dog_x > 0:
+            dog_x -= SPEED
     else:
         state_dog = 0
 
     if key[pygame.K_l]:
         state_cat = 1
-        if scroll < WORLD_LIMIT:
-            scroll += 5
+        if cat_x < WALKING_LIMIT:
+            cat_x += SPEED
+    elif key[pygame.K_j]:
+        state_cat = 2
+        if cat_x > 0:
+            cat_x -= SPEED
     else:
         state_cat = 0
-
+    
+    if cat_x > SCREEN_WIDTH/2 and dog_x > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
+        scroll += 5
+    
+    if cat_x < SCREEN_WIDTH/2 and dog_x < SCREEN_WIDTH/2 and key[pygame.K_a] and key[pygame.K_j]:
+        scroll -= 5
+    
     # show frame image
     match state_dog:
         case 0:
-            screen.blit(frame_arr_dog_idle[i], (0, 200))
+            screen.blit(frame_arr_dog_idle[i], (dog_x, dog_y))
         case 1:
-            screen.blit(frame_arr_dog_walk[i], (0, 200))
+            screen.blit(frame_arr_dog_walk[i], (dog_x, dog_y))
+        case 2:
+            img = frame_arr_dog_walk[i]
+            img = pygame.transform.flip(img, True, False).convert_alpha()# mirroring the image on x axis
+            screen.blit(img, (dog_x, dog_y))
 
     match state_cat:
         case 0:
-            screen.blit(frame_arr_cat_idle[i], (100, 200))
+            screen.blit(frame_arr_cat_idle[i], (cat_x, cat_y))
         case 1:
-            screen.blit(frame_arr_cat_walk[i], (100, 200))
+            screen.blit(frame_arr_cat_walk[i], (cat_x, cat_y))
+        case 2:
+            img = frame_arr_cat_walk[i]
+            img = pygame.transform.flip(img, True, False).convert_alpha()# mirroring the image on x axis
+            screen.blit(img, (cat_x, cat_y))
     i += 1
     if i >= len(frame_arr_dog_idle):
         i = 0
