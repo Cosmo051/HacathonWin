@@ -1,8 +1,27 @@
 import pygame
 from spritesheet import *
 from constants import *
-
+from network import Network
 pygame.init()
+
+class Player:
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.rect = (x, y, width, height)
+    
+    def draw_rect(self, window):
+        pygame.draw.rect(window, self.rect)
+    
+    def move(self):
+        pass
+
+
+
+
+
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 864
@@ -51,6 +70,14 @@ def draw_ground():
             ((x * ground_width) - scroll * 2.5, SCREEN_HEIGHT - ground_height),
         )
 
+#position helper func
+def read_pos(str):
+    str = str.split(",")
+    return int(str[0]), int(str[1])
+
+def make_pos(tup):
+    return str(tup[0]) + "," + str(tup[1])
+#######################################
 
 frame_arr_dog_idle = init_sprite("assets\street-animal\\1 Dog\Idle.png")
 frame_arr_cat_idle = init_sprite("assets\street-animal\\3 Cat\Idle.png")
@@ -59,6 +86,11 @@ frame_arr_cat_walk = init_sprite("assets\street-animal\\3 Cat\Walk.png")
 
 clock = pygame.time.Clock()
 run = True
+#server shit
+client_number = 0
+n = Network()
+start_pos = read_pos(n.get_pos())
+##############
 i = 0
 state_dog = 0
 state_cat = 0
