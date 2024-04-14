@@ -42,6 +42,7 @@ def draw_bg():
             speed += 0.2
         #drawing platforms
         screen.blit(plat, (1500-scroll*speed, 200))
+        screen.blit(plat2, (2000-scroll*speed, 300))
 
 
 def draw_ground():
@@ -69,6 +70,10 @@ cat_x = 0
 dog_y = 634
 cat_y = 634
 plat = pygame.image.load("assets\platform-img\PNG\Tiles\\tile50.png")
+plat2 = pygame.transform.scale(plat, (500, 500))
+
+dog_img = frame_arr_dog_idle[0]
+cat_img = frame_arr_cat_idle[0]
 while run:
     clock.tick(10)
     # update background
@@ -111,27 +116,48 @@ while run:
     # show frame image
     match state_dog:
         case 0:
+            dog_img = frame_arr_dog_idle[i]
             screen.blit(frame_arr_dog_idle[i], (dog_x, dog_y))
         case 1:
+            dog_img = frame_arr_dog_walk[i]
             screen.blit(frame_arr_dog_walk[i], (dog_x, dog_y))
         case 2:
             img = frame_arr_dog_walk[i]
             img = pygame.transform.flip(img, True, False).convert_alpha()# mirroring the image on x axis
+            dog_img = img
             screen.blit(img, (dog_x, dog_y))
 
     match state_cat:
         case 0:
+            cat_img = frame_arr_cat_idle[i]
             screen.blit(frame_arr_cat_idle[i], (cat_x, cat_y))
         case 1:
+            cat_img = frame_arr_cat_walk[i]
             screen.blit(frame_arr_cat_walk[i], (cat_x, cat_y))
         case 2:
             img = frame_arr_cat_walk[i]
             img = pygame.transform.flip(img, True, False).convert_alpha()# mirroring the image on x axis
+            cat_img = img
             screen.blit(img, (cat_x, cat_y))
     i += 1
     if i >= len(frame_arr_dog_idle):
         i = 0
+    
+    #collision handeling
+    dog_rect = dog_img.get_rect()
+    dog_rect.topleft = (dog_x, dog_y)
 
+    cat_rect = cat_img.get_rect()
+    cat_rect.topleft = (cat_x, cat_y)
+
+    dog_col = dog_rect.collidelist(plat_lst)
+    cat_col = cat_rect.collidelist(plat_lst)
+
+    if dog_col != -1:
+        dog_y = plat_lst[dog_col].topleft[1]
+    
+    if cat_col != -1:
+        cat_y = plat_lst[cat_col].topleft[1]
     # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
