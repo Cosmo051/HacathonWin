@@ -3,7 +3,7 @@ from spritesheet import *
 from constants import *
 from network import Network
 pygame.init()
-
+#connect the sprite to the class
 class Player:
     def __init__(self, x, y, width, height):
         self.x = x
