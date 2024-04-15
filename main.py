@@ -7,19 +7,21 @@ from platformer import *
 pygame.init()
 #connect the sprite to the class
 class Player:
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, name):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.rect = pygame.Rect(x, y, width, height)
+        self.frames_dic = {"Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"), "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png")}
     
     def draw_rect(self, window):
         pygame.draw.rect(window, self.rect)
     
     def set_y(self, y):
         self.y = y
-    
+    def get_frames_dic(self):
+        return self.frames_dic
     def move(self):
         pass
 
@@ -97,17 +99,14 @@ def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 #######################################
 
-frame_arr_dog_idle = init_sprite("assets\street-animal\\1 Dog\Idle.png")
-frame_arr_cat_idle = init_sprite("assets\street-animal\\3 Cat\Idle.png")
-frame_arr_dog_walk = init_sprite("assets\street-animal\\1 Dog\Walk.png")
-frame_arr_cat_walk = init_sprite("assets\street-animal\\3 Cat\Walk.png")
+
 
 clock = pygame.time.Clock()
 run = True
 #server shit
 client_number = 0
 n = Network()
-#start_pos = read_pos(n.get_pos())
+start_pos = read_pos(n.get_pos())
 ##############
 i = 0
 state_dog = 0
@@ -120,8 +119,12 @@ dog_y = 634
 cat_y = 634
 
 
-dog_img = frame_arr_dog_idle[0]
-cat_img = frame_arr_cat_idle[0]
+
+
+dog = Player(start_pos[0], start_pos[1], 48, 48,"dog")
+cat = Player(0, 0, 48, 48,"cat")
+dog_img = dog.get_frames_dic()["Idle"][0]
+cat_img = cat.get_frames_dic()["Idle"][0]
 while run:
     clock.tick(10)
     # update background
