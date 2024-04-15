@@ -13,17 +13,25 @@ class Player:
         self.width = width
         self.height = height
         self.rect = pygame.Rect(x, y, width, height)
-        self.frames_dic = {"Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"), "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png")}
+        self.frames_dic = {"Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"), "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png"), "WalkBack":flip_images(init_sprite(f"assets\street-animal\{name}\Walk.png"))}
     
     def draw_rect(self, window):
         pygame.draw.rect(window, self.rect)
     
     def set_y(self, y):
         self.y = y
+    
+    def get_x(self):
+        return self.x
+    
     def get_frames_dic(self):
         return self.frames_dic
-    def move(self):
-        pass
+    
+    def draw(self, screen, state, index):
+        screen.blit(self.frames_dic[state][index], (self.x, self.y))
+    
+    def move_x(self, state):
+        self.x += SPEED*state
 
 
 
@@ -35,6 +43,12 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
 
+def flip_images(img_arr):
+    flipped_arr = []
+    for img in img_arr:
+        flipped_img = pygame.transform.flip(img, True, False).convert_alpha()
+        flipped_arr.append(flipped_img)
+    return flipped_arr
 
 # background code---------------------------------------------------------start
 # define game variables
@@ -140,77 +154,55 @@ while run:
     # state handling----------------
     if key[pygame.K_d]:
         state_dog = 1
-        if dog_x < WALKING_LIMIT:
-            dog_x += SPEED
+        if dog.get_x() < WALKING_LIMIT:
+            dog.move_x(1)
     elif key[pygame.K_a]:
         state_dog = 2
-        if dog_x > 0:
-            dog_x -= SPEED
+        if dog.get_x() > 0:
+            dog.move_x(-1)
     else:
         state_dog = 0
 
     if key[pygame.K_l]:
         state_cat = 1
-        if cat_x < WALKING_LIMIT:
-            cat_x += SPEED
+        if cat.get_x() < WALKING_LIMIT:
+            cat.move_x(1)
     elif key[pygame.K_j]:
         state_cat = 2
-        if cat_x > 0:
-            cat_x -= SPEED
+        if cat.get_x() > 0:
+            cat.move_x(-1)
     else:
         state_cat = 0
     
-    if cat_x > SCREEN_WIDTH/2 and dog_x > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
+    if cat.get_x() > SCREEN_WIDTH/2 and dog.get_x() > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
         scroll += 5
     
-    if cat_x < SCREEN_WIDTH/2 and dog_x < SCREEN_WIDTH/2 and key[pygame.K_a] and key[pygame.K_j]:
+    if cat.get_x() < SCREEN_WIDTH/2 and dog.get_x() < SCREEN_WIDTH/2 and key[pygame.K_a] and key[pygame.K_j]:
         scroll -= 5
     
     # show frame image
     match state_dog:
         case 0:
-            dog_img = frame_arr_dog_idle[i]
-            screen.blit(frame_arr_dog_idle[i], (dog_x, dog_y))
+            dog.draw(screen, "Idle", i)
         case 1:
-            dog_img = frame_arr_dog_walk[i]
-            screen.blit(frame_arr_dog_walk[i], (dog_x, dog_y))
+            dog.draw(screen, "Walk", i)
         case 2:
-            img = frame_arr_dog_walk[i]
-            img = pygame.transform.flip(img, True, False).convert_alpha()# mirroring the image on x axis
-            dog_img = img
-            screen.blit(img, (dog_x, dog_y))
+            dog.draw(screen, "WalkBack", i)
 
     match state_cat:
         case 0:
-            cat_img = frame_arr_cat_idle[i]
-            screen.blit(frame_arr_cat_idle[i], (cat_x, cat_y))
+            cat.draw(screen, "Idle", i)
         case 1:
-            cat_img = frame_arr_cat_walk[i]
-            screen.blit(frame_arr_cat_walk[i], (cat_x, cat_y))
+            cat.draw(screen, "Walk", i)
         case 2:
-            img = frame_arr_cat_walk[i]
-            img = pygame.transform.flip(img, True, False).convert_alpha()# mirroring the image on x axis
-            cat_img = img
-            screen.blit(img, (cat_x, cat_y))
+            cat.draw(screen, "WalkBack", i)
     i += 1
-    if i >= len(frame_arr_dog_idle):
+    if i >= len(dog.get_frames_dic()):
         i = 0
     
     #collision handeling
-    dog_rect = dog_img.get_rect()
-    dog_rect.topleft = (dog_x, dog_y)
-
-    cat_rect = cat_img.get_rect()
-    cat_rect.topleft = (cat_x, cat_y)
-
-    dog_col = dog_rect.collidelist(plat_lst)
-    cat_col = cat_rect.collidelist(plat_lst)
-
-    if dog_col != -1:
-        dog_y = plat_lst[dog_col].topleft[1]
-    
-    if cat_col != -1:
-        cat_y = plat_lst[cat_col].topleft[1]
+    plat_collision_check(dog, plat_lst)
+    plat_collision_check(cat, plat_lst)
     # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
