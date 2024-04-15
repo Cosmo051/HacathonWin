@@ -82,10 +82,6 @@ def draw_ground():
 def draw_platforms(platform_lst:list, screen, offset):
     for plat in platform_lst:
         plat.draw(screen, offset)
-
-def plat_collision_check(player, platform_lst):
-    for plat in platform_lst:
-        plat.player_on_platform(player)
 # background code---------------------------------------------------------end
 
 #position helper func
@@ -122,6 +118,12 @@ cat_y = 634
 
 dog_img = frame_arr_dog_idle[0]
 cat_img = frame_arr_cat_idle[0]
+
+# collision check
+def plat_collision_check(player, platform_lst):
+    for plat in platform_lst:
+        plat.player_on_platform(player)
+
 while run:
     clock.tick(10)
     # update background
