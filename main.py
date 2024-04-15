@@ -203,7 +203,7 @@ while run:
     #collision handeling
     plat_collision_check(dog, plat_lst)
     plat_collision_check(cat, plat_lst)
-    # event handler
+        # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
