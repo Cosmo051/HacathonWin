@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 
-server = "192.168.7.17"  #ip adress we need to put in
+server = "10.0.0.27"  #ip adress we need to put in
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#blackbox
@@ -30,7 +30,7 @@ def threaded_client(conn, current_player):
     reply = ""
     while True:
         try:
-            data = read_pos(conn.recv(2048).decode()) #if thre is an error increas the size
+            data = read_pos(conn.recv(2048*2).decode()) #if thre is an error increas the size
             pos[current_player] = data
 
             if not data:

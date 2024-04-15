@@ -113,10 +113,10 @@ def draw_platforms(platform_lst:list, screen, offset):
 #position helper func
 def read_pos(str:str):
     str = str.split(",")
-    return int(str[0]), int(str[1])
+    return int(str[0]), int(str[1]), str[2]
 
 def make_pos(tup):
-    return str(tup[0]) + "," + str(tup[1])
+    return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
 
 def redrawWindow(window, dog, cat, dog_state, cat_state, index):
     dog.draw(window, dog_state, index)
@@ -135,7 +135,7 @@ n = Network()
 start_pos = read_pos(n.get_pos())
 ##############
 i = 0
-state_dog = 0
+state_dog = start_pos[2]
 state_cat = 0
 
 dog_x = 0
@@ -149,7 +149,7 @@ cat_y = 634
 
 dog = Player(start_pos[0], start_pos[1], 48, 48,"dog")
 cat = Player(0, 0, 48, 48,"cat")
-dog_img = dog.get_frames_dic()["Idle"][0]
+dog_img = dog.get_frames_dic()[state_dog][0]
 cat_img = cat.get_frames_dic()["Idle"][0]
 
 # collision check
@@ -171,9 +171,10 @@ while run:
     # draw world
     draw_bg()
     draw_ground()
-    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y))))
+    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
+    state_cat = cat_pos[2]
     cat.update()
     key = pygame.key.get_pressed()
     # state handling----------------
@@ -187,17 +188,6 @@ while run:
             dog.move_x(-1)
     else:
         state_dog = "Idle"
-
-    if key[pygame.K_l]:
-        state_cat = "Walk"
-        if cat.get_x() < WALKING_LIMIT:
-            cat.move_x(1)
-    elif key[pygame.K_j]:
-        state_cat = "WalkBack"
-        if cat.get_x() > 0:
-            cat.move_x(-1)
-    else:
-        state_cat = "Idle"
     
     if cat.get_x() > SCREEN_WIDTH/2 and dog.get_x() > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
         scroll += 5
