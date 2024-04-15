@@ -76,9 +76,26 @@ ground_height = ground_image.get_height()
 
 # creating the platforms for the level
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
-plat = Platform(plat_img_path, 100, 20, 300, 700)
-plat2 = Platform(plat_img_path, 200, 10, 100, 50)
-plat_lst = [plat, plat2]
+plat_lst = [
+    Platform(plat_img_path, 200, 50, 100, 50),
+    Platform(plat_img_path, 70, 50, 400, 100),
+    Platform(plat_img_path, 100, 50, 1000, 340),
+    Platform(plat_img_path, 50, 50, 500, 500),
+    Platform(plat_img_path, 150, 50, 1500, 50),
+    Platform(plat_img_path, 340, 50, 200, 120),
+    Platform(plat_img_path, 90, 50, 3000, 450),
+    Platform(plat_img_path, 180, 50, 2100, 300),
+    Platform(plat_img_path, 200, 50, 1100, 230),
+    Platform(plat_img_path, 140, 50, 1200, 540),
+    Platform(plat_img_path, 60, 50, 1030, 128),
+    Platform(plat_img_path, 130, 50, 1870, 452),
+    Platform(plat_img_path, 345, 50, 1390, 345),
+    Platform(plat_img_path, 79, 50, 2765, 260),
+    Platform(plat_img_path, 120, 50, 2000, 125),
+    Platform(plat_img_path, 260, 50, 1234, 231),
+    Platform(plat_img_path, 400, 50, 600, 532),
+    Platform(plat_img_path, 80, 50, 200, 500)
+]
 
 bg_images = []
 for i in range(7, 1, -1):
