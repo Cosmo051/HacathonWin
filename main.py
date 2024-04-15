@@ -10,22 +10,29 @@ class Player:
     def __init__(self, x, y, width, height, name):
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
-        self.rect = pygame.Rect(x, y, width, height)
+        self.width = width * SCALE
+        self.height = height * SCALE
+        self.rect = pygame.Rect(x, y, self.width, self.height)
         self.frames_dic = {"Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"), "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png"), "WalkBack":flip_images(init_sprite(f"assets\street-animal\{name}\Walk.png"))}
     
     def draw_rect(self, window):
-        pygame.draw.rect(window, self.rect)
+        pygame.draw.rect(window, "black", self.rect)
     
     def set_y(self, y):
-        self.y = y
+        self.y = y - self.height
+
     def update(self):
         self.rect = (self.x, self.y, self.width, self.height)
+
     def get_x(self):
         return self.x
+    
+    def get_y(self):
+        return self.y
+    
     def get_rect(self):
         return self.rect
+    
     def get_frames_dic(self):
         return self.frames_dic
     
@@ -66,8 +73,8 @@ ground_height = ground_image.get_height()
 
 # creating the platforms for the level
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
-plat = Platform(plat_img_path, 100, 50, 300, 100)
-plat2 = Platform(plat_img_path, 200, 10, 100, 20)
+plat = Platform(plat_img_path, 100, 20, 300, 700)
+plat2 = Platform(plat_img_path, 200, 10, 100, 50)
 plat_lst = [plat, plat2]
 
 bg_images = []
@@ -135,14 +142,20 @@ cat_y = 634
 
 
 dog = Player(dog_x, dog_y, 48, 48,"dog")
-cat = Player(0, 0, 48, 48,"cat")
+cat = Player(cat_x, cat_y, 48, 48,"cat")
 dog_img = dog.get_frames_dic()["Idle"][0]
 cat_img = cat.get_frames_dic()["Idle"][0]
 
 # collision check
 def plat_collision_check(player, platform_lst):
     for plat in platform_lst:
-        plat.player_on_platform(player)
+        if plat.player_on_platform(player):
+            return True
+    return False
+
+def gravitational_force(player:Player):
+    if (not plat_collision_check(player, plat_lst)) and (player.get_y() < GROUND_LEVEL):
+        player.y = player.y + GRAVITY
 
 while run:
     clock.tick(10)
@@ -206,6 +219,10 @@ while run:
     #collision handeling
     plat_collision_check(dog, plat_lst)
     plat_collision_check(cat, plat_lst)
+
+    #Yaniv stuff
+    gravitational_force(dog)
+    gravitational_force(cat)
     # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
