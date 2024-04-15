@@ -165,7 +165,10 @@ while run:
     # draw world
     draw_bg()
     draw_ground()
-
+    p2_pos = read_pos(n.send(make_pos((p.x, p.y))))
+    p2.x = p2_pos[0]
+    p2y = p2_pos[1]
+    p2.update()
     key = pygame.key.get_pressed()
     # state handling----------------
     if key[pygame.K_d]:
