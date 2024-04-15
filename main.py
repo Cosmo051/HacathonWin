@@ -10,6 +10,9 @@ class Player:
     def __init__(self, x, y, width, height, name):
         self.x = x
         self.y = y
+        self.y_gravity = 1
+        self.jump_height = 20
+        self.y_velocity = self.jump_height
         self.width = width * SCALE
         self.height = height * SCALE
         self.rect = pygame.Rect(x, y, self.width, self.height)
@@ -151,6 +154,7 @@ dog = Player(start_pos[0], start_pos[1], 48, 48,"dog")
 cat = Player(0, 0, 48, 48,"cat")
 dog_img = dog.get_frames_dic()[state_dog][0]
 cat_img = cat.get_frames_dic()["Idle"][0]
+jumping = False
 
 # collision check
 def plat_collision_check(player, platform_lst):
@@ -191,7 +195,16 @@ while run:
             dog.move_x(-1)
     else:
         state_dog = "Idle"
-    
+    if key[pygame.K_SPACE]:
+        jumping = True
+    if jumping:
+        dog.y -= dog.y_velocity
+        dog.y_velocity -= dog.y_gravity
+        dog.update()
+        if dog.y_velocity < -dog.jump_height or plat_collision_check(dog, plat_lst):
+            jumping = False
+            dog.y_velocity = dog.jump_height
+
     if cat.get_x() > SCREEN_WIDTH/2 and dog.get_x() > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
         scroll += 5
     
@@ -204,12 +217,14 @@ while run:
         i = 0
     
     #collision handeling
-    plat_collision_check(dog, plat_lst)
+    if plat_collision_check(dog, plat_lst):
+        jumping = False
     plat_collision_check(cat, plat_lst)
 
     #Yaniv stuff
-    gravitational_force(dog)
-    gravitational_force(cat)
+    if not jumping:
+        gravitational_force(dog)
+        gravitational_force(cat)
     # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
