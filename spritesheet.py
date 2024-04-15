@@ -1,5 +1,5 @@
 import pygame
-
+from constants import *
 
 class SpriteSheet:
     def __init__(self, image):
@@ -21,7 +21,7 @@ def init_sprite(path):
     # sprite sheet dog: --------------------------------------------------
 	sprite_sheet_image = pygame.image.load(path).convert_alpha()
 	sprite_sheet = SpriteSheet(sprite_sheet_image)
-	frame_arr = [sprite_sheet.get_image(i, 48, 48, 3, BLACK) for i in range(4)]
+	frame_arr = [sprite_sheet.get_image(i, 48, 48, SCALE, BLACK) for i in range(4)]
 	return frame_arr
 
 
