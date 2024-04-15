@@ -16,30 +16,46 @@ except socket.error as e: #if there is an error we will see e
 s.listen(2) #limit for 2 ppl
 print("Waiting for a connection, Server Started")
 
-def threaded_client(conn):
-    conn.send(str.encode("Connected"))
+def read_pos(str:str):
+    str = str.split(",")
+    return int(str[0]), int(str[1])
+
+def make_pos(tup):
+    return str(tup[0]) + "," + str(tup[1])
+
+pos = [(0,634), (0,634)]
+
+def threaded_client(conn, current_player):
+    conn.send(str.encode(make_pos(pos[current_player])))
     reply = ""
     while True:
         try:
-            data = conn.recv(2048) #if thre is an error increas the size
-            reply = data.decode("utf-8")
+            data = read_pos(conn.recv(2048).decode()) #if thre is an error increas the size
+            pos[current_player] = data
 
             if not data:
                 print("Disconnected")
                 break
             else:
-                print("Received: ", reply)
+                if current_player == 1:
+                    reply = pos[0]
+                else:
+                    reply = pos[1]
+
+                print("Received: ", data)
                 print("Sending: ", reply)
             
-            conn.sendall(str.encode(reply))
+            conn.sendall(str.encode(make_pos(reply)))
         except:
             break
     
     print("Lost connection")
     conn.close()
 
+current_player = 0
 while True:
     conn, addr = s.accept()  #conn = connection addr = addres
     print("Connected to: addr")
 
-    start_new_thread (threaded_client, (conn,)) 
+    start_new_thread (threaded_client, (conn, current_player))
+    current_player += 1
