@@ -19,7 +19,8 @@ class Platform:
     def player_on_platform(self, player):
         plat = self.get_rect()
         if plat.colliderect(player.get_rect()):
-            player.set_y(self.y+1)# +1 for fixing player wiggle 
+            #player.y = self.rect.top - player.height # +1 for fixing player wiggle 
+            player.update()
             return True
         return False
     

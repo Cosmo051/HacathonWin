@@ -1,51 +1,62 @@
 import pygame
+import sys
+import subprocess
+import threading
 from spritesheet import *
 from constants import *
 from network import Network
 from platformer import *
 
 pygame.init()
-#connect the sprite to the class
+
+
+# connect the sprite to the class
 class Player:
     def __init__(self, x, y, width, height, name):
         self.x = x
         self.y = y
         self.y_gravity = 1
+        self.min_y = GROUND_LEVEL
         self.jump_height = 20
         self.y_velocity = self.jump_height
-        self.width = width * SCALE
-        self.height = height * SCALE
-        self.rect = pygame.Rect(x, y, self.width, self.height)
-        self.frames_dic = {"Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"), "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png"), "WalkBack":flip_images(init_sprite(f"assets\street-animal\{name}\Walk.png"))}
-    
+        self.width = width * (SCALE - 1)
+        self.height = height * (SCALE - 1)
+        self.rect = pygame.Rect(x, y + height, self.width, self.height)
+        self.frames_dic = {
+            "Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"),
+            "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png"),
+            "WalkBack": flip_images(
+                init_sprite(f"assets\street-animal\{name}\Walk.png")
+            ),
+        }
+
     def draw_rect(self, window):
         pygame.draw.rect(window, "black", self.rect)
-    
+
     def set_y(self, y):
         self.y = y - self.height
 
     def update(self):
-        self.rect = (self.x, self.y, self.width, self.height)
+        self.rect = pygame.Rect(self.x, self.y + (self.height/(SCALE - 1)), self.width, self.height)
 
     def get_x(self):
         return self.x
-    
+
     def get_y(self):
         return self.y
-    
+
     def get_rect(self):
         return self.rect
-    
+
     def get_frames_dic(self):
         return self.frames_dic
-    
+
     def draw(self, screen, state, index):
         screen.blit(self.frames_dic[state][index], (self.x, self.y))
-    
-    def move_x(self, state):
-        self.x += SPEED*state
-        self.update()
 
+    def move_x(self, state):
+        self.x += SPEED * state
+        self.update()
 
 
 SCREEN_WIDTH = 1600
@@ -56,12 +67,22 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
 
+def run_other_file(file_path):
+    try:
+        subprocess.run(['python', file_path], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running {file_path}: {e}")
+        sys.exit(1)
+server_thread = threading.Thread(target=run_other_file, args="server.py")
+server_thread.start()
+
 def flip_images(img_arr):
     flipped_arr = []
     for img in img_arr:
         flipped_img = pygame.transform.flip(img, True, False).convert_alpha()
         flipped_arr.append(flipped_img)
     return flipped_arr
+
 
 # background code---------------------------------------------------------start
 # define game variables
@@ -77,7 +98,7 @@ ground_height = ground_image.get_height()
 # creating the platforms for the level
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
 plat_lst = [
-    Platform(plat_img_path, 200, 50, 100, 50),
+    Platform(plat_img_path, 200, 50, 100, 600),
     Platform(plat_img_path, 70, 50, 400, 100),
     Platform(plat_img_path, 100, 50, 1000, 340),
     Platform(plat_img_path, 50, 50, 500, 500),
@@ -94,7 +115,7 @@ plat_lst = [
     Platform(plat_img_path, 120, 50, 2000, 125),
     Platform(plat_img_path, 260, 50, 1234, 231),
     Platform(plat_img_path, 400, 50, 600, 532),
-    Platform(plat_img_path, 80, 50, 200, 500)
+    Platform(plat_img_path, 80, 50, 200, 500),
 ]
 
 bg_images = []
@@ -113,8 +134,8 @@ def draw_bg():
         for i in bg_images:
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
-        #drawing platforms
-        draw_platforms(plat_lst, screen, scroll*speed)
+        # drawing platforms
+        draw_platforms(plat_lst, screen, scroll * speed)
 
 
 def draw_ground():
@@ -125,31 +146,36 @@ def draw_ground():
         )
 
 
-def draw_platforms(platform_lst:list, screen, offset):
+def draw_platforms(platform_lst: list, screen, offset):
     for plat in platform_lst:
         plat.draw(screen, offset)
+
+
 # background code---------------------------------------------------------end
 
-#position helper func
-def read_pos(str:str):
+
+# position helper func
+def read_pos(str: str):
     str = str.split(",")
     return int(str[0]), int(str[1]), str[2]
 
+
 def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
+
 
 def redrawWindow(window, dog, cat, dog_state, cat_state, index):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
     pygame.display.update()
-    
-#######################################
 
+
+#######################################
 
 
 clock = pygame.time.Clock()
 run = True
-#server shit
+# server shit
 client_number = 0
 n = Network()
 start_pos = read_pos(n.get_pos())
@@ -165,22 +191,23 @@ dog_y = 634
 cat_y = 634
 
 
-
-
-dog = Player(start_pos[0], start_pos[1], 48, 48,"dog")
-cat = Player(0, 0, 48, 48,"cat")
+dog = Player(start_pos[0], start_pos[1], 48, 48, "dog")
+cat = Player(0, 0, 48, 48, "cat")
 dog_img = dog.get_frames_dic()[state_dog][0]
 cat_img = cat.get_frames_dic()["Idle"][0]
 jumping = False
+
 
 # collision check
 def plat_collision_check(player, platform_lst):
     for plat in platform_lst:
         if plat.player_on_platform(player):
             return True
+    player.min_y = GROUND_LEVEL
     return False
 
-def gravitational_force(player:Player):
+
+def gravitational_force(player: Player):
     if (not plat_collision_check(player, plat_lst)) and (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
@@ -212,42 +239,57 @@ while run:
             dog.move_x(-1)
     else:
         state_dog = "Idle"
+    
     if key[pygame.K_SPACE]:
         jumping = True
+    
     if jumping:
         dog.y -= dog.y_velocity
         dog.y_velocity -= dog.y_gravity
         dog.update()
-        if dog.y_velocity < -dog.jump_height or plat_collision_check(dog, plat_lst):
-            jumping = False
+        if dog.y >= GROUND_LEVEL:
+            dog.y = GROUND_LEVEL
             dog.y_velocity = dog.jump_height
+            jumping = False
+        else:
+            for plat in plat_lst:
+                if plat.rect.colliderect(dog.rect) and ((plat.rect.top + plat.rect.height//2) >= dog.rect.bottom >= plat.rect.top):
+                    dog.y_velocity = dog.jump_height
+                    jumping = False
+        dog.update()
 
-    if cat.get_x() > SCREEN_WIDTH/2 and dog.get_x() > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
+    if (
+        cat.get_x() > SCREEN_WIDTH / 2
+        and dog.get_x() > SCREEN_WIDTH / 2
+        and key[pygame.K_d]
+        and key[pygame.K_l]
+    ):
         scroll += 5
-    
-    if cat.get_x() < SCREEN_WIDTH/2 and dog.get_x() < SCREEN_WIDTH/2 and key[pygame.K_a] and key[pygame.K_j]:
+
+    if (
+        cat.get_x() < SCREEN_WIDTH / 2
+        and dog.get_x() < SCREEN_WIDTH / 2
+        and key[pygame.K_a]
+        and key[pygame.K_j]
+    ):
         scroll -= 5
-    
+
     # show frame image
     i += 1
     if i >= len(dog.get_frames_dic()["Idle"]):
         i = 0
-    
-    #collision handeling
-    if plat_collision_check(dog, plat_lst):
-        jumping = False
-    plat_collision_check(cat, plat_lst)
 
-    #Yaniv stuff
-    if not jumping:
+    # collision handeling
+
+    # Yaniv stuff
+    if (not jumping) and (not plat_collision_check(dog, plat_lst)):
         gravitational_force(dog)
-        gravitational_force(cat)
     # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+    dog.update()
     redrawWindow(screen, dog, cat, state_dog, state_cat, i)
-    #pygame.display.update()
+    # pygame.display.update()
 
 pygame.quit()
