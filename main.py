@@ -161,7 +161,10 @@ def plat_collision_check(player, platform_lst):
 
 def gravitational_force(player:Player):
     if (not plat_collision_check(player, plat_lst)) and (player.get_y() < GROUND_LEVEL):
-        player.y = player.y + GRAVITY
+        if player.y + GRAVITY > GROUND_LEVEL:
+            player.y = GROUND_LEVEL
+        else:
+            player.y = player.y + GRAVITY
 
 while run:
     clock.tick(10)
