@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 
-server = "10.0.0.27"  #ip adress we need to put in
+server = "192.168.7.17"  #ip adress we need to put in
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#blackbox
@@ -18,12 +18,12 @@ print("Waiting for a connection, Server Started")
 
 def read_pos(str:str):
     str = str.split(",")
-    return int(str[0]), int(str[1])
+    return int(str[0]), int(str[1]), str[2]
 
 def make_pos(tup):
-    return str(tup[0]) + "," + str(tup[1])
+    return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
 
-pos = [(0,634), (0,634)]
+pos = [(0,634, "Idle"), (0,634, "Idle")]
 
 def threaded_client(conn, current_player):
     conn.send(str.encode(make_pos(pos[current_player])))

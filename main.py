@@ -206,21 +206,6 @@ while run:
         scroll -= 5
     
     # show frame image
-    match state_dog:
-        case "Idle":
-            dog.draw(screen, "Idle", i)
-        case "Walk":
-            dog.draw(screen, "Walk", i)
-        case "WalkBack":
-            dog.draw(screen, "WalkBack", i)
-
-    match state_cat:
-        case "Idle":
-            cat.draw(screen, "Idle", i)
-        case "Walk":
-            cat.draw(screen, "Walk", i)
-        case "WalkBack":
-            cat.draw(screen, "WalkBack", i)
     i += 1
     if i >= len(dog.get_frames_dic()["Idle"]):
         i = 0
