@@ -2,6 +2,8 @@ import pygame
 from spritesheet import *
 from constants import *
 from network import Network
+from platformer import *
+
 pygame.init()
 #connect the sprite to the class
 class Player:
@@ -10,10 +12,13 @@ class Player:
         self.y = y
         self.width = width
         self.height = height
-        self.rect = (x, y, width, height)
+        self.rect = pygame.Rect(x, y, width, height)
     
     def draw_rect(self, window):
         pygame.draw.rect(window, self.rect)
+    
+    def set_y(self, y):
+        self.y = y
     
     def move(self):
         pass
@@ -29,7 +34,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
 
 
-# background code---------------------------------------------------------
+# background code---------------------------------------------------------start
 # define game variables
 scroll = 0
 bg_index = 3
@@ -39,6 +44,12 @@ ground_image = pygame.image.load(
 ).convert_alpha()
 ground_width = ground_image.get_width()
 ground_height = ground_image.get_height()
+
+# creating the platforms for the level
+plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
+plat = Platform(plat_img_path, 100, 50, 300, 100)
+plat2 = Platform(plat_img_path, 200, 10, 100, 20)
+plat_lst = [plat, plat2]
 
 bg_images = []
 for i in range(7, 1, -1):
@@ -57,8 +68,7 @@ def draw_bg():
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
         #drawing platforms
-        screen.blit(plat, (1500-scroll*speed, 200))
-        screen.blit(plat2, (2000-scroll*speed, 300))
+        draw_platforms(plat_lst, scroll*speed)
 
 
 def draw_ground():
@@ -68,8 +78,18 @@ def draw_ground():
             ((x * ground_width) - scroll * 2.5, SCREEN_HEIGHT - ground_height),
         )
 
+
+def draw_platforms(platform_lst:list, screen, offset):
+    for plat in platform_lst:
+        plat.draw(screen, offset)
+
+def plat_collision_check(player, platform_lst):
+    for plat in platform_lst:
+        plat.player_on_platform(player)
+# background code---------------------------------------------------------end
+
 #position helper func
-def read_pos(str):
+def read_pos(str:str):
     str = str.split(",")
     return int(str[0]), int(str[1])
 
@@ -87,7 +107,7 @@ run = True
 #server shit
 client_number = 0
 n = Network()
-start_pos = read_pos(n.get_pos())
+#start_pos = read_pos(n.get_pos())
 ##############
 i = 0
 state_dog = 0
@@ -98,8 +118,7 @@ cat_x = 0
 
 dog_y = 634
 cat_y = 634
-plat = pygame.image.load("assets\platform-img\PNG\Tiles\\tile50.png")
-plat2 = pygame.transform.scale(plat, (500, 500))
+
 
 dog_img = frame_arr_dog_idle[0]
 cat_img = frame_arr_cat_idle[0]
