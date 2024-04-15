@@ -110,6 +110,9 @@ def read_pos(str:str):
 
 def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
+
+def redrawWindow():
+    pass
 #######################################
 
 
@@ -119,7 +122,7 @@ run = True
 #server shit
 client_number = 0
 n = Network()
-#start_pos = read_pos(n.get_pos())
+start_pos = read_pos(n.get_pos())
 ##############
 i = 0
 state_dog = 0
@@ -134,7 +137,7 @@ cat_y = 634
 
 
 
-dog = Player(dog_x, dog_y, 48, 48,"dog")
+dog = Player(start_pos[0], start_pos[1], 48, 48,"dog")
 cat = Player(0, 0, 48, 48,"cat")
 dog_img = dog.get_frames_dic()["Idle"][0]
 cat_img = cat.get_frames_dic()["Idle"][0]
@@ -152,10 +155,10 @@ while run:
     # draw world
     draw_bg()
     draw_ground()
-    p2_pos = read_pos(n.send(make_pos((p.x, p.y))))
-    p2.x = p2_pos[0]
-    p2y = p2_pos[1]
-    p2.update()
+    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y))))
+    cat.x = cat_pos[0]
+    cat.y = cat_pos[1]
+    cat.update()
     key = pygame.key.get_pressed()
     # state handling----------------
     if key[pygame.K_d]:
