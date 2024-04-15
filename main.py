@@ -118,8 +118,11 @@ def read_pos(str:str):
 def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 
-def redrawWindow():
-    pass
+def redrawWindow(window, dog, cat, dog_state, cat_state, index):
+    dog.draw(window, dog_state, index)
+    cat.draw(window, cat_state, index)
+    pygame.display.update()
+    
 #######################################
 
 
@@ -175,26 +178,26 @@ while run:
     key = pygame.key.get_pressed()
     # state handling----------------
     if key[pygame.K_d]:
-        state_dog = 1
+        state_dog = "Walk"
         if dog.get_x() < WALKING_LIMIT:
             dog.move_x(1)
     elif key[pygame.K_a]:
-        state_dog = 2
+        state_dog = "WalkBack"
         if dog.get_x() > 0:
             dog.move_x(-1)
     else:
-        state_dog = 0
+        state_dog = "Idle"
 
     if key[pygame.K_l]:
-        state_cat = 1
+        state_cat = "Walk"
         if cat.get_x() < WALKING_LIMIT:
             cat.move_x(1)
     elif key[pygame.K_j]:
-        state_cat = 2
+        state_cat = "WalkBack"
         if cat.get_x() > 0:
             cat.move_x(-1)
     else:
-        state_cat = 0
+        state_cat = "Idle"
     
     if cat.get_x() > SCREEN_WIDTH/2 and dog.get_x() > SCREEN_WIDTH/2 and key[pygame.K_d] and key[pygame.K_l]:
         scroll += 5
@@ -204,19 +207,19 @@ while run:
     
     # show frame image
     match state_dog:
-        case 0:
+        case "Idle":
             dog.draw(screen, "Idle", i)
-        case 1:
+        case "Walk":
             dog.draw(screen, "Walk", i)
-        case 2:
+        case "WalkBack":
             dog.draw(screen, "WalkBack", i)
 
     match state_cat:
-        case 0:
+        case "Idle":
             cat.draw(screen, "Idle", i)
-        case 1:
+        case "Walk":
             cat.draw(screen, "Walk", i)
-        case 2:
+        case "WalkBack":
             cat.draw(screen, "WalkBack", i)
     i += 1
     if i >= len(dog.get_frames_dic()["Idle"]):
@@ -234,6 +237,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    pygame.display.update()
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i)
+    #pygame.display.update()
 
 pygame.quit()
