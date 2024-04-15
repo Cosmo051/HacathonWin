@@ -20,10 +20,12 @@ class Player:
     
     def set_y(self, y):
         self.y = y
-    
+    def update(self):
+        self.rect = (self.x, self.y, self.width, self.height)
     def get_x(self):
         return self.x
-    
+    def get_rect(self):
+        return self.rect
     def get_frames_dic(self):
         return self.frames_dic
     
@@ -32,6 +34,7 @@ class Player:
     
     def move_x(self, state):
         self.x += SPEED*state
+        self.update()
 
 
 
@@ -84,7 +87,7 @@ def draw_bg():
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
         #drawing platforms
-        draw_platforms(plat_lst, scroll*speed)
+        draw_platforms(plat_lst, screen, scroll*speed)
 
 
 def draw_ground():
@@ -116,7 +119,7 @@ run = True
 #server shit
 client_number = 0
 n = Network()
-start_pos = read_pos(n.get_pos())
+#start_pos = read_pos(n.get_pos())
 ##############
 i = 0
 state_dog = 0
@@ -131,7 +134,7 @@ cat_y = 634
 
 
 
-dog = Player(start_pos[0], start_pos[1], 48, 48,"dog")
+dog = Player(dog_x, dog_y, 48, 48,"dog")
 cat = Player(0, 0, 48, 48,"cat")
 dog_img = dog.get_frames_dic()["Idle"][0]
 cat_img = cat.get_frames_dic()["Idle"][0]
@@ -197,7 +200,7 @@ while run:
         case 2:
             cat.draw(screen, "WalkBack", i)
     i += 1
-    if i >= len(dog.get_frames_dic()):
+    if i >= len(dog.get_frames_dic()["Idle"]):
         i = 0
     
     #collision handeling
