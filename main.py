@@ -65,7 +65,7 @@ SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 864
 BG = (50, 50, 50)
 BLACK = (0, 0, 0)
-
+portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
 
@@ -172,7 +172,7 @@ def draw_bg(cris_list_dog1, cris_list_cat1):
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
     # drawing platforms
-    portal = pygame.transform.scale(portal, (300, 300))
+    portal = pygame.transform.scale(portal_img, (300, 300))
     screen.blit(portal, (2500 - scroll, 334))
     draw_platforms(plat_lst_1, screen, scroll)
     draw_crystals(screen, cris_list_dog1, scroll)
@@ -203,8 +203,6 @@ def read_pos(str:str):
 
 def make_pos(tup):
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
-
-portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
     dog.draw(window, dog_state, index)
