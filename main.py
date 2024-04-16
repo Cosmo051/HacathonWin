@@ -99,58 +99,58 @@ ground_height = ground_image.get_height()
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
 # List 1
 plat_lst_1 = [
-    Platform(plat_img_path, 200, 50, 100, 50),
-    Platform(plat_img_path, 400, 150, 100, 50),
-    Platform(plat_img_path, 600, 250, 100, 50),
-    Platform(plat_img_path, 800, 350, 100, 50),
-    Platform(plat_img_path, 1000, 450, 100, 50),
-    Platform(plat_img_path, 1200, 550, 100, 50),
-    Platform(plat_img_path, 1400, 450, 100, 50),
-    Platform(plat_img_path, 1600, 350, 100, 50),
-    Platform(plat_img_path, 1800, 250, 100, 50),
-    Platform(plat_img_path, 2000, 150, 100, 50)
+    Platform(plat_img_path, 150, 30, 200, 50),
+    Platform(plat_img_path, 100, 20, 400, 150),
+    Platform(plat_img_path, 120, 40, 600, 250),
+    Platform(plat_img_path, 130, 25, 800, 350),
+    Platform(plat_img_path, 100, 30, 1000, 450),
+    Platform(plat_img_path, 110, 35, 1200, 550),
+    Platform(plat_img_path, 140, 25, 1400, 450),
+    Platform(plat_img_path, 90, 20, 1600, 350),
+    Platform(plat_img_path, 100, 30, 1800, 250),
+    Platform(plat_img_path, 120, 25, 2000, 150)
 ]
 
 # List 2
 plat_lst_2 = [
-    Platform(plat_img_path, 100, 200, 100, 50),
-    Platform(plat_img_path, 300, 300, 100, 50),
-    Platform(plat_img_path, 500, 400, 100, 50),
-    Platform(plat_img_path, 700, 500, 100, 50),
-    Platform(plat_img_path, 900, 400, 100, 50),
-    Platform(plat_img_path, 1100, 300, 100, 50),
-    Platform(plat_img_path, 1300, 200, 100, 50),
-    Platform(plat_img_path, 1500, 100, 100, 50),
-    Platform(plat_img_path, 1700, 200, 100, 50),
-    Platform(plat_img_path, 1900, 300, 100, 50)
+    Platform(plat_img_path, 100, 30, 100, 200),
+    Platform(plat_img_path, 120, 25, 300, 300),
+    Platform(plat_img_path, 140, 40, 500, 400),
+    Platform(plat_img_path, 110, 20, 700, 500),
+    Platform(plat_img_path, 130, 35, 900, 400),
+    Platform(plat_img_path, 150, 25, 1100, 300),
+    Platform(plat_img_path, 100, 30, 1300, 200),
+    Platform(plat_img_path, 120, 20, 1500, 100),
+    Platform(plat_img_path, 140, 25, 1700, 200),
+    Platform(plat_img_path, 110, 40, 1900, 300)
 ]
 
 # List 3
 plat_lst_3 = [
-    Platform(plat_img_path, 200, 350, 100, 50),
-    Platform(plat_img_path, 400, 250, 100, 50),
-    Platform(plat_img_path, 600, 150, 100, 50),
-    Platform(plat_img_path, 800, 250, 100, 50),
-    Platform(plat_img_path, 1000, 350, 100, 50),
-    Platform(plat_img_path, 1200, 450, 100, 50),
-    Platform(plat_img_path, 1400, 350, 100, 50),
-    Platform(plat_img_path, 1600, 250, 100, 50),
-    Platform(plat_img_path, 1800, 150, 100, 50),
-    Platform(plat_img_path, 2000, 250, 100, 50)
+    Platform(plat_img_path, 130, 25, 200, 350),
+    Platform(plat_img_path, 140, 30, 400, 250),
+    Platform(plat_img_path, 120, 20, 600, 150),
+    Platform(plat_img_path, 100, 35, 800, 250),
+    Platform(plat_img_path, 110, 40, 1000, 350),
+    Platform(plat_img_path, 120, 25, 1200, 450),
+    Platform(plat_img_path, 140, 30, 1400, 350),
+    Platform(plat_img_path, 130, 20, 1600, 250),
+    Platform(plat_img_path, 100, 25, 1800, 150),
+    Platform(plat_img_path, 150, 30, 2000, 250)
 ]
 
 # List 4
 plat_lst_4 = [
-    Platform(plat_img_path, 100, 500, 100, 50),
-    Platform(plat_img_path, 300, 400, 100, 50),
-    Platform(plat_img_path, 500, 300, 100, 50),
-    Platform(plat_img_path, 700, 200, 100, 50),
-    Platform(plat_img_path, 900, 300, 100, 50),
-    Platform(plat_img_path, 1100, 400, 100, 50),
-    Platform(plat_img_path, 1300, 500, 100, 50),
-    Platform(plat_img_path, 1500, 400, 100, 50),
-    Platform(plat_img_path, 1700, 300, 100, 50),
-    Platform(plat_img_path, 1900, 400, 100, 50)
+    Platform(plat_img_path, 120, 25, 100, 500),
+    Platform(plat_img_path, 110, 30, 300, 400),
+    Platform(plat_img_path, 140, 20, 500, 300),
+    Platform(plat_img_path, 130, 35, 700, 200),
+    Platform(plat_img_path, 150, 30, 900, 300),
+    Platform(plat_img_path, 100, 20, 1100, 400),
+    Platform(plat_img_path, 120, 25, 1300, 500),
+    Platform(plat_img_path, 140, 30, 1500, 400),
+    Platform(plat_img_path, 110, 20, 1700, 300),
+    Platform(plat_img_path, 130, 35, 1900, 400)
 ]
 
 bg_images = []
@@ -170,7 +170,7 @@ def draw_bg():
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
         # drawing platforms
-        draw_platforms(plat_lst, screen, scroll * speed)
+        draw_platforms(plat_lst_1, screen, scroll * speed)
 
 
 def draw_ground():
@@ -243,7 +243,7 @@ def plat_collision_check(player, platform_lst):
 
 
 def gravitational_force(player: Player):
-    if (not plat_collision_check(player, plat_lst)) and (player.get_y() < GROUND_LEVEL):
+    if (not plat_collision_check(player, plat_lst_1)) and (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
         else:
@@ -287,7 +287,7 @@ while run:
             dog.y_velocity = dog.jump_height
             jumping = False
         else:
-            for plat in plat_lst:
+            for plat in plat_lst_1:
                 if plat.rect.colliderect(dog.rect) and ((plat.rect.top + plat.rect.height//2) >= dog.rect.bottom >= plat.rect.top):
                     dog.y_velocity = dog.jump_height
                     jumping = False
@@ -317,7 +317,7 @@ while run:
     # collision handeling
 
     # Yaniv stuff
-    if (not jumping) and (not plat_collision_check(dog, plat_lst)):
+    if (not jumping) and (not plat_collision_check(dog, plat_lst_1)):
         gravitational_force(dog)
     # event handler
     for event in pygame.event.get():
