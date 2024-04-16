@@ -171,10 +171,10 @@ def draw_bg(cris_list_dog1, cris_list_cat1):
         for i in bg_images:
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
-        # drawing platforms
-        draw_platforms(plat_lst_1, screen, scroll * speed)
-        draw_crystals(screen, cris_list_dog1, scroll*speed)
-        draw_crystals(screen, cris_list_cat1, scroll*speed)
+    # drawing platforms
+    draw_platforms(plat_lst_1, screen, scroll * speed)
+    draw_crystals(screen, cris_list_dog1, scroll*speed)
+    draw_crystals(screen, cris_list_cat1, scroll*speed)
 
 
 def draw_ground():
