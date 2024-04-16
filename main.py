@@ -97,25 +97,60 @@ ground_height = ground_image.get_height()
 
 # creating the platforms for the level
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
-plat_lst = [
-    Platform(plat_img_path, 200, 50, 100, 600),
-    Platform(plat_img_path, 70, 50, 400, 100),
-    Platform(plat_img_path, 100, 50, 1000, 340),
-    Platform(plat_img_path, 50, 50, 500, 500),
-    Platform(plat_img_path, 150, 50, 1500, 50),
-    Platform(plat_img_path, 340, 50, 200, 120),
-    Platform(plat_img_path, 90, 50, 3000, 450),
-    Platform(plat_img_path, 180, 50, 2100, 300),
-    Platform(plat_img_path, 200, 50, 1100, 230),
-    Platform(plat_img_path, 140, 50, 1200, 540),
-    Platform(plat_img_path, 60, 50, 1030, 128),
-    Platform(plat_img_path, 130, 50, 1870, 452),
-    Platform(plat_img_path, 345, 50, 1390, 345),
-    Platform(plat_img_path, 79, 50, 2765, 260),
-    Platform(plat_img_path, 120, 50, 2000, 125),
-    Platform(plat_img_path, 260, 50, 1234, 231),
-    Platform(plat_img_path, 400, 50, 600, 532),
-    Platform(plat_img_path, 80, 50, 200, 500),
+# List 1
+plat_lst_1 = [
+    Platform(plat_img_path, 200, 50, 100, 50),
+    Platform(plat_img_path, 400, 150, 100, 50),
+    Platform(plat_img_path, 600, 250, 100, 50),
+    Platform(plat_img_path, 800, 350, 100, 50),
+    Platform(plat_img_path, 1000, 450, 100, 50),
+    Platform(plat_img_path, 1200, 550, 100, 50),
+    Platform(plat_img_path, 1400, 450, 100, 50),
+    Platform(plat_img_path, 1600, 350, 100, 50),
+    Platform(plat_img_path, 1800, 250, 100, 50),
+    Platform(plat_img_path, 2000, 150, 100, 50)
+]
+
+# List 2
+plat_lst_2 = [
+    Platform(plat_img_path, 100, 200, 100, 50),
+    Platform(plat_img_path, 300, 300, 100, 50),
+    Platform(plat_img_path, 500, 400, 100, 50),
+    Platform(plat_img_path, 700, 500, 100, 50),
+    Platform(plat_img_path, 900, 400, 100, 50),
+    Platform(plat_img_path, 1100, 300, 100, 50),
+    Platform(plat_img_path, 1300, 200, 100, 50),
+    Platform(plat_img_path, 1500, 100, 100, 50),
+    Platform(plat_img_path, 1700, 200, 100, 50),
+    Platform(plat_img_path, 1900, 300, 100, 50)
+]
+
+# List 3
+plat_lst_3 = [
+    Platform(plat_img_path, 200, 350, 100, 50),
+    Platform(plat_img_path, 400, 250, 100, 50),
+    Platform(plat_img_path, 600, 150, 100, 50),
+    Platform(plat_img_path, 800, 250, 100, 50),
+    Platform(plat_img_path, 1000, 350, 100, 50),
+    Platform(plat_img_path, 1200, 450, 100, 50),
+    Platform(plat_img_path, 1400, 350, 100, 50),
+    Platform(plat_img_path, 1600, 250, 100, 50),
+    Platform(plat_img_path, 1800, 150, 100, 50),
+    Platform(plat_img_path, 2000, 250, 100, 50)
+]
+
+# List 4
+plat_lst_4 = [
+    Platform(plat_img_path, 100, 500, 100, 50),
+    Platform(plat_img_path, 300, 400, 100, 50),
+    Platform(plat_img_path, 500, 300, 100, 50),
+    Platform(plat_img_path, 700, 200, 100, 50),
+    Platform(plat_img_path, 900, 300, 100, 50),
+    Platform(plat_img_path, 1100, 400, 100, 50),
+    Platform(plat_img_path, 1300, 500, 100, 50),
+    Platform(plat_img_path, 1500, 400, 100, 50),
+    Platform(plat_img_path, 1700, 300, 100, 50),
+    Platform(plat_img_path, 1900, 400, 100, 50)
 ]
 
 bg_images = []
