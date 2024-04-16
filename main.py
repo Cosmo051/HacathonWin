@@ -15,9 +15,9 @@ class Player:
     def __init__(self, x, y, width, height, name):
         self.x = x
         self.y = y
-        self.y_gravity = 1
+        self.y_gravity = 2
         self.min_y = GROUND_LEVEL
-        self.jump_height = 20
+        self.jump_height = 30
         self.y_velocity = self.jump_height
         self.width = width * (SCALE - 1)
         self.height = height * (SCALE - 1)
@@ -67,14 +67,14 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
 
-def run_other_file(file_path):
-    try:
-        subprocess.run(['python', file_path], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running {file_path}: {e}")
-        sys.exit(1)
-server_thread = threading.Thread(target=run_other_file, args="server.py")
-server_thread.start()
+#def run_other_file(file_path):
+    #try:
+        #subprocess.run(['python', file_path], check=True)
+    #except subprocess.CalledProcessError as e:
+        #print(f"Error running {file_path}: {e}")
+        #sys.exit(1)
+#server_thread = threading.Thread(target=run_other_file, args="server.py")
+#server_thread.start()
 
 def flip_images(img_arr):
     flipped_arr = []
@@ -281,16 +281,20 @@ while run:
     if jumping:
         dog.y -= dog.y_velocity
         dog.y_velocity -= dog.y_gravity
+        print(dog.y_velocity)
         dog.update()
-        if dog.y >= GROUND_LEVEL:
-            dog.y = GROUND_LEVEL
-            dog.y_velocity = dog.jump_height
-            jumping = False
-        else:
-            for plat in plat_lst_1:
-                if plat.rect.colliderect(dog.rect) and ((plat.rect.top + plat.rect.height//2) >= dog.rect.bottom >= plat.rect.top):
-                    dog.y_velocity = dog.jump_height
-                    jumping = False
+        if dog.y_velocity < 0:
+            if dog.y >= GROUND_LEVEL:
+                dog.y = GROUND_LEVEL
+                dog.y_velocity = dog.jump_height
+                jumping = False
+            else:
+                for plat in plat_lst_1:
+                    if plat.rect.colliderect(dog.rect):
+                        dog.y_velocity = dog.jump_height
+                        dog.min_y = plat.rect.top - dog.height
+                        dog.y = dog.min_y
+                        jumping = False
         dog.update()
 
     if (
