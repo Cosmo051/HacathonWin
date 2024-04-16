@@ -200,7 +200,7 @@ def read_pos(str: str):
 def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
 
-portal_img = pygame.image.load("assets\backgrounds-assets\portal.png")
+portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
     dog.draw(window, dog_state, index)
