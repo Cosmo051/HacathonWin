@@ -190,6 +190,7 @@ def draw_ground():
 def draw_platforms(platform_lst: list, screen, offset):
     for plat in platform_lst:
         plat.draw(screen, offset)
+        plat.draw_rect(screen)
 
 
 # background code---------------------------------------------------------end
