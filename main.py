@@ -6,6 +6,8 @@ from spritesheet import *
 from constants import *
 from network import Network
 from platformer import *
+from cristal import *
+import random
 
 pygame.init()
 
@@ -252,6 +254,36 @@ def gravitational_force(player: Player):
     elif flag:
         player.y = plat.y - player.height - plat.height
 
+cris_list_dog = [
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
+    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog")
+]
+
+def create_crystals(screen, cris_list):
+    for cris in cris_list:
+        cris.draw(screen)
+
+def move_crystals(cris_list):
+    for cris in cris_list:
+        cris.move()
+    
+cris_flag = True
 while run:
     clock.tick(10)
     # update background
@@ -316,7 +348,9 @@ while run:
     flag, plat = plat_collision_check(dog, plat_lst_1)
     if flag:
         dog.y = plat.y - dog.height - plat.height
-    dog.draw_rect(screen)
+
+    #create_crystals(screen, cris_list_dog)
+    #move_crystals(cris_list_dog)
 
 
     # Yaniv stuff
