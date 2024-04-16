@@ -6,7 +6,7 @@ class Cristal:
         self.width = width
         self.height = height
         self.path = path
-        self.kind = kind
+        self.kind = kind #dog cristal or cat cristal
         self.is_collected = False
     
     def get_X(self):
