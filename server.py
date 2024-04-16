@@ -3,7 +3,7 @@ from _thread import *
 import sys
 import random
 
-server = "127.0.0.1"  #ip adress we need to put in
+server = "192.168.7.17"  #ip adress we need to put in
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#blackbox
@@ -18,11 +18,11 @@ s.listen(2) #limit for 2 ppl
 print("Waiting for a connection, Server Started")
 
 def read_pos(str:str):
-    str = str.split("-")
+    str = str.split("_")
     return int(str[0]), int(str[1]), str[2], eval(str[3])
 
 def make_pos(tup):
-    return str(tup[0]) + "-" + str(tup[1]) + "-" + str(tup[2]) + "-" + str(tup[3])
+    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
 
 cris_pos = [
     ([
