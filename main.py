@@ -278,7 +278,7 @@ def move_crystals(cris_list):
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
 while run:
-    clock.tick(10)
+    clock.tick(60)
     # update background
     screen.fill(BG)
 
