@@ -14,7 +14,7 @@ class Platform:
         return self.rect
     
     def update_plat_rect(self, offset):
-        self.rect = pygame.Rect(self.x - offset, self.y, self.width, self.height)
+        self.rect.move(-offset, 0)
     
     def player_on_platform(self, player):
         plat = self.get_rect()
