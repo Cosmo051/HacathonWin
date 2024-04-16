@@ -192,18 +192,20 @@ def draw_platforms(platform_lst: list, screen, offset):
 
 
 # position helper func
-def read_pos(str: str):
-    str = str.split(",")
-    return int(str[0]), int(str[1]), str[2]
-
+def read_pos(str:str):
+    str = str.split("-")
+    print(str[0])
+    return int(str[0]), int(str[1]), str[2], eval(str[3])
 
 def make_pos(tup):
-    return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
+    return str(tup[0]) + "-" + str(tup[1]) + "-" + str(tup[2]) + "-" + str(tup[3])
 
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index, cris_list_dog1, cris_list_cat1):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
+    draw_crystals(window, cris_list_dog1)
+    draw_crystals(window, cris_list_cat1)
     pygame.display.update()
 
 
@@ -220,7 +222,7 @@ start_pos = read_pos(n.get_pos())
 i = 0
 state_dog = start_pos[2]
 state_cat = 0
-
+cris_list_cord = start_pos[3]
 dog_x = 0
 cat_x = 0
 
@@ -254,35 +256,23 @@ def gravitational_force(player: Player):
     elif flag:
         player.y = plat.y - player.height - plat.height
 
-cris_list_dog = [
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"),
-    Cristal(random.randint(100, 2500), random.randint(50, 630), CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog")
-]
 
-def create_crystals(screen, cris_list):
+
+def create_crystals(coor):
+    cris_list_created = []
+    for i in range(len(coor[0])):
+        cris_list_created.append(Cristal(coor[0][i], coor[1][i], CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"))
+    return cris_list_created
+
+def draw_crystals(screen, cris_list):
     for cris in cris_list:
         cris.draw(screen)
 
 def move_crystals(cris_list):
     for cris in cris_list:
         cris.move()
-    
+
+cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
 while run:
     clock.tick(10)
@@ -292,10 +282,12 @@ while run:
     # draw world
     draw_bg()
     draw_ground()
-    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog))))
+    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
     state_cat = cat_pos[2]
+    cris_list_cat = create_crystals(cat_pos[3])
+
     cat.update()
     key = pygame.key.get_pressed()
     # state handling----------------
@@ -350,7 +342,7 @@ while run:
         dog.y = plat.y - dog.height - plat.height
 
     #create_crystals(screen, cris_list_dog)
-    #move_crystals(cris_list_dog)
+    move_crystals(cris_list_dog)
 
 
     # Yaniv stuff
@@ -362,7 +354,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, cris_list_cat, cris_list_dog)
     # pygame.display.update()
 
 pygame.quit()

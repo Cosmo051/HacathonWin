@@ -1,6 +1,7 @@
 import socket
 from _thread import *
 import sys
+import random
 
 server = "127.0.0.1"  #ip adress we need to put in
 port = 5555
@@ -17,13 +18,42 @@ s.listen(2) #limit for 2 ppl
 print("Waiting for a connection, Server Started")
 
 def read_pos(str:str):
-    str = str.split(",")
-    return int(str[0]), int(str[1]), str[2]
+    str = str.split("-")
+    return int(str[0]), int(str[1]), str[2], eval(str[3])
 
 def make_pos(tup):
-    return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
+    return str(tup[0]) + "-" + str(tup[1]) + "-" + str(tup[2]) + "-" + str(tup[3])
 
-pos = [(0,634, "Idle"), (0,634, "Idle")]
+cris_pos = [
+    ([
+        random.randint(100, 2500),
+        random.randint(100, 2500),
+        random.randint(100, 2500),
+        random.randint(100, 2500),
+        random.randint(100, 2500)
+    ],[
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+    ]),
+    ([
+        random.randint(100, 2500),
+        random.randint(100, 2500),
+        random.randint(100, 2500),
+        random.randint(100, 2500),
+        random.randint(100, 2500)
+    ],[
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+    ])
+]
+pos = [(0,634, "Idle", cris_pos[0]), (0,634, "Idle", cris_pos[1])]
+
 
 def threaded_client(conn, current_player):
     conn.send(str.encode(make_pos(pos[current_player])))
