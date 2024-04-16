@@ -97,25 +97,60 @@ ground_height = ground_image.get_height()
 
 # creating the platforms for the level
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
-plat_lst = [
-    Platform(plat_img_path, 200, 50, 100, 600),
-    Platform(plat_img_path, 70, 50, 400, 100),
-    Platform(plat_img_path, 100, 50, 1000, 340),
-    Platform(plat_img_path, 50, 50, 500, 500),
-    Platform(plat_img_path, 150, 50, 1500, 50),
-    Platform(plat_img_path, 340, 50, 200, 120),
-    Platform(plat_img_path, 90, 50, 3000, 450),
-    Platform(plat_img_path, 180, 50, 2100, 300),
-    Platform(plat_img_path, 200, 50, 1100, 230),
-    Platform(plat_img_path, 140, 50, 1200, 540),
-    Platform(plat_img_path, 60, 50, 1030, 128),
-    Platform(plat_img_path, 130, 50, 1870, 452),
-    Platform(plat_img_path, 345, 50, 1390, 345),
-    Platform(plat_img_path, 79, 50, 2765, 260),
-    Platform(plat_img_path, 120, 50, 2000, 125),
-    Platform(plat_img_path, 260, 50, 1234, 231),
-    Platform(plat_img_path, 400, 50, 600, 532),
-    Platform(plat_img_path, 80, 50, 200, 500),
+# List 1
+plat_lst_1 = [
+    Platform(plat_img_path, 150, 30, 200, 50),
+    Platform(plat_img_path, 100, 20, 400, 150),
+    Platform(plat_img_path, 120, 40, 600, 250),
+    Platform(plat_img_path, 130, 25, 800, 350),
+    Platform(plat_img_path, 100, 30, 1000, 450),
+    Platform(plat_img_path, 110, 35, 1200, 550),
+    Platform(plat_img_path, 140, 25, 1400, 450),
+    Platform(plat_img_path, 90, 20, 1600, 350),
+    Platform(plat_img_path, 100, 30, 1800, 250),
+    Platform(plat_img_path, 120, 25, 2000, 150)
+]
+
+# List 2
+plat_lst_2 = [
+    Platform(plat_img_path, 100, 30, 100, 200),
+    Platform(plat_img_path, 120, 25, 300, 300),
+    Platform(plat_img_path, 140, 40, 500, 400),
+    Platform(plat_img_path, 110, 20, 700, 500),
+    Platform(plat_img_path, 130, 35, 900, 400),
+    Platform(plat_img_path, 150, 25, 1100, 300),
+    Platform(plat_img_path, 100, 30, 1300, 200),
+    Platform(plat_img_path, 120, 20, 1500, 100),
+    Platform(plat_img_path, 140, 25, 1700, 200),
+    Platform(plat_img_path, 110, 40, 1900, 300)
+]
+
+# List 3
+plat_lst_3 = [
+    Platform(plat_img_path, 130, 25, 200, 350),
+    Platform(plat_img_path, 140, 30, 400, 250),
+    Platform(plat_img_path, 120, 20, 600, 150),
+    Platform(plat_img_path, 100, 35, 800, 250),
+    Platform(plat_img_path, 110, 40, 1000, 350),
+    Platform(plat_img_path, 120, 25, 1200, 450),
+    Platform(plat_img_path, 140, 30, 1400, 350),
+    Platform(plat_img_path, 130, 20, 1600, 250),
+    Platform(plat_img_path, 100, 25, 1800, 150),
+    Platform(plat_img_path, 150, 30, 2000, 250)
+]
+
+# List 4
+plat_lst_4 = [
+    Platform(plat_img_path, 120, 25, 100, 500),
+    Platform(plat_img_path, 110, 30, 300, 400),
+    Platform(plat_img_path, 140, 20, 500, 300),
+    Platform(plat_img_path, 130, 35, 700, 200),
+    Platform(plat_img_path, 150, 30, 900, 300),
+    Platform(plat_img_path, 100, 20, 1100, 400),
+    Platform(plat_img_path, 120, 25, 1300, 500),
+    Platform(plat_img_path, 140, 30, 1500, 400),
+    Platform(plat_img_path, 110, 20, 1700, 300),
+    Platform(plat_img_path, 130, 35, 1900, 400)
 ]
 
 bg_images = []
@@ -135,7 +170,7 @@ def draw_bg():
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
         # drawing platforms
-        draw_platforms(plat_lst, screen, scroll * speed)
+        draw_platforms(plat_lst_1, screen, scroll * speed)
 
 
 def draw_ground():
@@ -208,7 +243,7 @@ def plat_collision_check(player, platform_lst):
 
 
 def gravitational_force(player: Player):
-    if (not plat_collision_check(player, plat_lst)) and (player.get_y() < GROUND_LEVEL):
+    if (not plat_collision_check(player, plat_lst_1)) and (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
         else:
@@ -254,7 +289,7 @@ while run:
                 dog.y_velocity = dog.jump_height
                 jumping = False
             else:
-                for plat in plat_lst:
+                for plat in plat_lst_1:
                     if plat.rect.colliderect(dog.rect):
                         dog.y_velocity = dog.jump_height
                         dog.min_y = plat.rect.top - dog.height
@@ -286,7 +321,7 @@ while run:
     # collision handeling
 
     # Yaniv stuff
-    if (not jumping) and (not plat_collision_check(dog, plat_lst)):
+    if (not jumping) and (not plat_collision_check(dog, plat_lst_1)):
         gravitational_force(dog)
     # event handler
     for event in pygame.event.get():
