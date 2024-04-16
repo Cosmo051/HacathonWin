@@ -355,6 +355,8 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+    for plat in plat_lst_1:
+        plat.update_plat_rect()
     dog.update()
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, cris_list_cat, cris_list_dog)
     # pygame.display.update()
