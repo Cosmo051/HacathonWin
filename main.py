@@ -200,10 +200,13 @@ def read_pos(str: str):
 def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1]) + "," + str(tup[2])
 
+portal_img = pygame.image.load("assets\backgrounds-assets\portal.png")
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
+    portal = pygame.transform.scale(portal, (300, 300))
+    screen.blit(portal, (2500, 334))
     pygame.display.update()
 
 
@@ -362,7 +365,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
 pygame.quit()
