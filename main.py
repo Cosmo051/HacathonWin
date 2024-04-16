@@ -172,6 +172,8 @@ def draw_bg(cris_list_dog1, cris_list_cat1):
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
     # drawing platforms
+    portal = pygame.transform.scale(portal, (300, 300))
+    screen.blit(portal, (2500 - scroll, 334))
     draw_platforms(plat_lst_1, screen, scroll)
     draw_crystals(screen, cris_list_dog1, scroll)
     draw_crystals(screen, cris_list_cat1, scroll)
@@ -207,8 +209,6 @@ portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
-    portal = pygame.transform.scale(portal, (300, 300))
-    screen.blit(portal, (2500, 334))
     pygame.display.update()
 
 
