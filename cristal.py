@@ -31,9 +31,9 @@ class Cristal:
             self.step = -self.step  # Reverse direction when reaching boundaries
         self.y += self.step
 
-    def draw(self, screen):
+    def draw(self, screen, offset):
         img = pygame.image.load(self.path)
         img = pygame.transform.scale(img, (self.width, self.height))
-        screen.blit(img, (self.x, self.y))
+        screen.blit(img, (self.x - offset, self.y))
     
 
