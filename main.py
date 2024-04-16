@@ -193,12 +193,12 @@ def draw_platforms(platform_lst: list, screen, offset):
 
 # position helper func
 def read_pos(str:str):
-    str = str.split("-")
+    str = str.split("_")
     print(str[0])
     return int(str[0]), int(str[1]), str[2], eval(str[3])
 
 def make_pos(tup):
-    return str(tup[0]) + "-" + str(tup[1]) + "-" + str(tup[2]) + "-" + str(tup[3])
+    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
 
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 
