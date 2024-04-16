@@ -7,7 +7,7 @@ class Platform:
         self.height = height
         self.x = x
         self.y = y
-        self.rect = pygame.Rect(width, height, x, y)
+        self.rect = pygame.Rect(x, y, width, height)
     
     def get_rect(self):
         self.rect.topleft = (self.x, self.y)
