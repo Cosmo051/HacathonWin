@@ -209,6 +209,8 @@ portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
+    portal = pygame.transform.scale(portal, (300, 300))
+    screen.blit(portal, (2500, 634))
     pygame.display.update()
 
 
