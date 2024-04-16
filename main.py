@@ -165,7 +165,7 @@ for i in range(7, 1, -1):
 bg_width = bg_images[0].get_width()
 
 
-def draw_bg():
+def draw_bg(cris_list_dog1, cris_list_cat1):
     for x in range(5):
         speed = 1
         for i in bg_images:
@@ -173,6 +173,8 @@ def draw_bg():
             speed += 0.2
         # drawing platforms
         draw_platforms(plat_lst_1, screen, scroll * speed)
+        draw_crystals(screen, cris_list_dog1, scroll*speed)
+        draw_crystals(screen, cris_list_cat1, scroll*speed)
 
 
 def draw_ground():
@@ -205,8 +207,6 @@ portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
-    draw_crystals(window, cris_list_dog1)
-    draw_crystals(window, cris_list_cat1)
     portal = pygame.transform.scale(portal, (300, 300))
     screen.blit(portal, (2500, 334))
     pygame.display.update()
@@ -267,9 +267,9 @@ def create_crystals(coor):
         cris_list_created.append(Cristal(coor[0][i], coor[1][i], CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"))
     return cris_list_created
 
-def draw_crystals(screen, cris_list):
+def draw_crystals(screen, cris_list, offset):
     for cris in cris_list:
-        cris.draw(screen)
+        cris.draw(screen, offset)
 
 def move_crystals(cris_list):
     for cris in cris_list:
@@ -282,9 +282,6 @@ while run:
     # update background
     screen.fill(BG)
 
-    # draw world
-    draw_bg()
-    draw_ground()
     cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
@@ -292,6 +289,10 @@ while run:
     cris_list_cat = create_crystals(cat_pos[3])
 
     cat.update()
+    # draw world
+    draw_bg(cris_list_dog, cris_list_cat)
+    draw_ground()
+    
     key = pygame.key.get_pressed()
     # state handling----------------
     if key[pygame.K_d]:
@@ -322,7 +323,6 @@ while run:
         cat.get_x() > SCREEN_WIDTH / 2
         and dog.get_x() > SCREEN_WIDTH / 2
         and key[pygame.K_d]
-        and key[pygame.K_l]
     ):
         scroll += 5
 
@@ -330,7 +330,6 @@ while run:
         cat.get_x() < SCREEN_WIDTH / 2
         and dog.get_x() < SCREEN_WIDTH / 2
         and key[pygame.K_a]
-        and key[pygame.K_j]
     ):
         scroll -= 5
 
