@@ -2,6 +2,7 @@ class Cristal:
     def __init__(self, x, y, width, height, path, kind): 
         self.x = x
         self.y = y
+        self.root_y = y
         self.width = width
         self.height = height
         self.path = path
@@ -21,7 +22,7 @@ class Cristal:
         self.y = y
     
     def move(self, steps, new_y):
-        if self.y < new_y:
+        if self.y >= new_y:
             self.y += steps
         else:
             self.y -= steps
