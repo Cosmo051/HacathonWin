@@ -30,4 +30,4 @@ class Platform:
     def draw(self, screen:pygame.Surface, offset):
         self.x = self.x - offset
         screen.blit(self.img, (self.x, self.y))
-        self.update_plat_rect(self.x)
+        self.update_plat_rect()
