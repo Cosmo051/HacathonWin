@@ -60,7 +60,7 @@ def threaded_client(conn, current_player):
     reply = ""
     while True:
         try:
-            data = read_pos(conn.recv(2048*4).decode()) #if thre is an error increas the size
+            data = read_pos(conn.recv(2048*7).decode()) #if thre is an error increas the size
             pos[current_player] = data
 
             if not data:
