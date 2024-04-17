@@ -295,7 +295,7 @@ while run:
     cris_list_cat = create_crystals(cat_pos[3], "cat")
     print(cat_pos)
     cat.update()
-    
+    combined_offset = (scroll + scroll_cat)//2
     key = pygame.key.get_pressed()
     # state handling----------------
     if len(joysticks) == 0:
