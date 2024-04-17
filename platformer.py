@@ -30,4 +30,3 @@ class Platform:
     
     def draw(self, screen:pygame.Surface):
         screen.blit(self.img, self.rect)
-        self.draw_rect(screen)

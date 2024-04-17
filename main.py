@@ -127,8 +127,8 @@ def draw_bg(offset, images, width):
             screen.blit(i, ((x * width) - offset * speed, 0))
             speed += 0.2
             # drawing platforms
-    portal = pygame.transform.scale(portal_img, (300, 300))
-    screen.blit(portal, (2500 - offset, 334))
+    portal = pygame.transform.scale(portal_img, (portal_width, portal_height))
+    screen.blit(portal, (portal_x, 300))
 
 
 def draw_ground(offset, image, width, height):
@@ -234,15 +234,16 @@ def collect_crystal(cris_list, cris_cord_list):
 
 portal_width = 600
 portal_height = 600
-portal_x = 2500
+portal_x = 500
 portal_y = 634
 
 def draw_platform(plat_lst):
     for plat in plat_lst:
         plat.draw(screen)
 
-def on_portal(dog, cat, scroll):
-    if ((portal_x - scroll) < dog.x < (portal_x + portal_width - scroll)) and (portal_y < cat.y < (portal_y + portal_height)) and ((portal_x - scroll) < cat.x < (portal_x + portal_width - scroll)) and (portal_y < cat.y < (portal_y + portal_height)):
+def on_portal(dog:Player, cat:Player, scroll):
+    portal_rect = pygame.rect.Rect(portal_x, portal_y, portal_width, portal_height)
+    if portal_rect.colliderect(dog.get_rect()) and portal_rect.colliderect(cat.get_rect()):
         return True
     return False
 
@@ -293,7 +294,6 @@ while run:
     state_cat = cat_pos[2]
     scroll_cat = cat_pos[4]
     cris_list_cat = create_crystals(cat_pos[3], "cat")
-    print(cat_pos)
     cat.update()
     combined_offset = (scroll + scroll_cat)//2
     key = pygame.key.get_pressed()
@@ -354,7 +354,7 @@ while run:
         gravitational_force(dog)
         dog.update()
     
-    if on_portal(dog, cat, combined_offset):
+    if on_portal(dog, cat, combined_offset) and (not started):
         started = True
         dog.x = 0
     
