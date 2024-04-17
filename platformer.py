@@ -18,7 +18,7 @@ class Platform:
         self.rect.move_ip(-offset, 0)
     
     def player_on_platform(self, player:Player):
-        plat = self.get_rect()
+        plat = self.rect
         if plat.colliderect(player.get_rect()) :#and (plat.y <= (player.y + player.height) <= (plat.y + (plat.height//2))):
             #player.y = self.rect.top - player.height # +1 for fixing player wiggle 
             player.update()
