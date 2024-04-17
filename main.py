@@ -267,9 +267,19 @@ def collect_crystal(cris_list, cris_cord_list):
             cris_cord_list[1].remove(cris_cord_list[1][i])
             cris_list.remove(cris_list[i])
 
+
+portal_width = 300
+portal_height = 300
+portal_x = 2500
+portal_y = 634
+
 def draw_platform(plat_lst):
     for plat in plat_lst:
         plat.draw(screen)
+
+def on_portal(dog, cat, scroll):
+    if (portal_x < dog.x < (portal_x + portal_width)) and (portal_y < cat.y < (portal_y + portal_height) and portal_x < cat.x < (portal_x + portal_width)) and (portal_y < cat.y < (portal_y + portal_height)):
+        return True
 
 def end_game():
     pass
