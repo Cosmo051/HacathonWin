@@ -249,6 +249,7 @@ def draw_crystals(screen, cris_list, offset):
 def move_crystals(cris_list):
     for cris in cris_list:
         cris.move()
+
 def collect_crystal(cris_list, cris_cord_list):
     for i in range(len(cris_list)):
         if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height):
@@ -337,7 +338,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    collect_crystal(cris_list_dog, cris_list_cord)
+    # collect_crystal(cris_list_dog, cris_list_cord)
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
