@@ -110,7 +110,12 @@ plat_lst_1 = [
     Platform(plat_img_path, 140, 25, 1400, 450),
     Platform(plat_img_path, 90, 20, 1600, 350),
     Platform(plat_img_path, 100, 30, 1800, 250),
-    Platform(plat_img_path, 120, 25, 2000, 150)
+    Platform(plat_img_path, 120, 25, 2000, 150),
+    Platform(plat_img_path, 130, 30, 2200, 250),
+    Platform(plat_img_path, 100, 20, 2400, 150),
+    Platform(plat_img_path, 140, 25, 2600, 350),
+    Platform(plat_img_path, 150, 35, 2800, 450),
+    Platform(plat_img_path, 120, 30, 3000, 350)
 ]
 
 # List 2
@@ -124,7 +129,13 @@ plat_lst_2 = [
     Platform(plat_img_path, 100, 30, 1300, 200),
     Platform(plat_img_path, 120, 20, 1500, 100),
     Platform(plat_img_path, 140, 25, 1700, 200),
-    Platform(plat_img_path, 110, 40, 1900, 300)
+    Platform(plat_img_path, 110, 40, 1900, 300),
+    Platform(plat_img_path, 120, 30, 2100, 400),
+    Platform(plat_img_path, 100, 25, 2300, 500),
+    Platform(plat_img_path, 130, 35, 2500, 400),
+    Platform(plat_img_path, 140, 30, 2700, 300),
+    Platform(plat_img_path, 110, 20, 2900, 200),
+    Platform(plat_img_path, 150, 25, 3100, 300)
 ]
 
 # List 3
@@ -138,7 +149,13 @@ plat_lst_3 = [
     Platform(plat_img_path, 140, 30, 1400, 350),
     Platform(plat_img_path, 130, 20, 1600, 250),
     Platform(plat_img_path, 100, 25, 1800, 150),
-    Platform(plat_img_path, 150, 30, 2000, 250)
+    Platform(plat_img_path, 150, 30, 2000, 250),
+    Platform(plat_img_path, 120, 35, 2200, 350),
+    Platform(plat_img_path, 130, 20, 2400, 450),
+    Platform(plat_img_path, 140, 25, 2600, 350),
+    Platform(plat_img_path, 110, 30, 2800, 250),
+    Platform(plat_img_path, 100, 20, 3000, 150),
+    Platform(plat_img_path, 120, 25, 3200, 250)
 ]
 
 # List 4
@@ -152,7 +169,13 @@ plat_lst_4 = [
     Platform(plat_img_path, 120, 25, 1300, 500),
     Platform(plat_img_path, 140, 30, 1500, 400),
     Platform(plat_img_path, 110, 20, 1700, 300),
-    Platform(plat_img_path, 130, 35, 1900, 400)
+    Platform(plat_img_path, 130, 35, 1900, 400),
+    Platform(plat_img_path, 120, 25, 2100, 500),
+    Platform(plat_img_path, 140, 30, 2300, 400),
+    Platform(plat_img_path, 150, 20, 2500, 300),
+    Platform(plat_img_path, 130, 35, 2700, 200),
+    Platform(plat_img_path, 110, 30, 2900, 300),
+    Platform(plat_img_path, 120, 20, 3100, 400)
 ]
 
 bg_images = []
