@@ -288,7 +288,6 @@ while run:
     state_cat = cat_pos[2]
     scroll_cat = cat_pos[4]
     cris_list_cat = create_crystals(cat_pos[3])
-    print(cat_pos)
     cat.update()
     combined_offset = (scroll + scroll_cat)//2
     # draw world
