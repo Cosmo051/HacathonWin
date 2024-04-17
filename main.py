@@ -325,7 +325,7 @@ while run:
         i = 0
 
     # collision handeling
-    flag, plat = plat_collision_check(dog, plat_lst_1)
+    flag, plat = plat_collision_check(dog, plat_lst_1, combined_offset)
     if flag:
         dog.y = plat.y - dog.height - plat.height
 
