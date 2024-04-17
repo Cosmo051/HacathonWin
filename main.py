@@ -303,6 +303,7 @@ while run:
     print(cat_pos)
 
     cat.update()
+    combined_offset = (scroll + scroll_cat)//2
     # draw world
     draw_bg(cris_list_dog, cris_list_cat, combined_offset, bg_images, bg_width)
     draw_ground(combined_offset, ground_image, ground_width, ground_height)
