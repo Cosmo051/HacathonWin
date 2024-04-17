@@ -230,16 +230,14 @@ cat_img = cat.get_frames_dic()["Idle"][0]
 jumping = False
 
 
-def gravitational_force(player: Player, flag1, plat1):
+def gravitational_force(player: Player):
     dog.update()
     jumping = False
-    if (not flag1) and (player.get_y() < GROUND_LEVEL):
+    if (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
         else:
             player.y = player.y + GRAVITY
-    elif flag1:
-        player.y = plat1.y - player.height - plat1.height
 
 
 def reset_game():
@@ -381,7 +379,7 @@ while run:
     move_crystals(cris_list_dog)
     # Yaniv stuff
     if (not jumping):
-        gravitational_force(dog, flag, plat)
+        gravitational_force(dog)
         dog.update()
     
     if finish:
