@@ -167,7 +167,7 @@ def draw_platforms(platform_lst: list, screen, offset):
         #plat.draw_rect(screen)
 
 
-# background code---------------------------------------------------------end
+# background code---------------------------------------------------------------------end
 
 
 # position helper func
