@@ -236,6 +236,9 @@ def collect_crystal(cris_list, cris_cord_list):
             cris_cord_list[1].remove(cris_cord_list[1][i])
             cris_list.remove(cris_list[i])
 
+def draw_platform(plat_lst):
+    for plat in plat_lst:
+        plat.draw(screen)
 
 def end_game():
     pass
