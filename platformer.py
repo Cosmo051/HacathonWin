@@ -29,5 +29,5 @@ class Platform:
         pygame.draw.rect(window, "black", self.rect)
     
     def draw(self, screen:pygame.Surface, offset):
-        self.rect.move(self.x - offset, self.y)
+        self.rect = self.rect.move(self.x - offset, self.y)
         screen.blit(self.img, self.rect)

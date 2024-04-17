@@ -39,7 +39,7 @@ def flip_images(img_arr):
 # background code---------------------------------------------------------start
 # define game variables
 scroll = 0
-bg_index = 3
+bg_index = 2
 
 ground_image = pygame.image.load(
     f"assets/backgrounds-assets/_PNG/{bg_index}/1.png"
@@ -178,7 +178,7 @@ def read_pos(str:str):
 def make_pos(tup):
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
     portal = pygame.transform.scale(portal, (300, 300))
@@ -223,17 +223,16 @@ def plat_collision_check(player, platform_lst):
     return False, None
 
 
-def gravitational_force(player: Player):
-    flag, plat = plat_collision_check(player, plat_lst_1)
-    jumping = False
+def gravitational_force(player: Player, flag1, plat1):
     dog.update()
-    if (not flag) and (player.get_y() < GROUND_LEVEL):
+    jumping = False
+    if (not flag1) and (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
         else:
             player.y = player.y + GRAVITY
-    elif flag:
-        player.y = plat.y - player.height - plat.height
+    elif flag1:
+        player.y = plat1.y - player.height - plat1.height
 
 
 
@@ -331,7 +330,7 @@ while run:
 
     # Yaniv stuff
     if (not jumping):
-        gravitational_force(dog)
+        gravitational_force(dog, flag, plat)
         dog.update()
     # event handler
     for event in pygame.event.get():
@@ -339,7 +338,7 @@ while run:
             run = False
     dog.update()
     collect_crystal(cris_list_dog, cris_list_cord)
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, cris_list_cat, cris_list_dog)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
 pygame.quit()
