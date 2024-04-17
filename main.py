@@ -19,7 +19,7 @@ BLACK = (0, 0, 0)
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
-STAGE_FILE = "stage.stg"
+STAGE_FILE = "stage.txt"
 #def run_other_file(file_path):
     #try:
         #subprocess.run(['python', file_path], check=True)
@@ -39,22 +39,24 @@ def flip_images(img_arr):
 def read_stage():
     curr_stage = 0
     with open(STAGE_FILE, 'r') as file:
-        curr_stage = int(file.read())
+        curr_stage = int(float(file.read()))
     return curr_stage
 
 def write_stage(new_stage):
     with open(STAGE_FILE, 'w') as file:
-        file.write(new_stage)
+        file.write(str(new_stage))
 # background code---------------------------------------------------------start
 # define game variables
 scroll = 0
 bg_index = 1
 
-ground_image = pygame.image.load(
-    f"assets/backgrounds-assets/_PNG/{bg_index}/1.png"
-).convert_alpha()
-ground_width = ground_image.get_width()
-ground_height = ground_image.get_height()
+def load_ground(index):
+    ground_image = pygame.image.load(
+        f"assets/backgrounds-assets/_PNG/{index}/1.png"
+    ).convert_alpha()
+    ground_width = ground_image.get_width()
+    ground_height = ground_image.get_height()
+    return ground_image, ground_width, ground_height
 
 # creating the platforms for the level
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
@@ -137,24 +139,25 @@ plat_lst_4 = [
     Platform(plat_img_path, 120, 20, 3100, 400)
 ]
 
-bg_images = []
-for i in range(7, 1, -1):
-    bg_image = pygame.image.load(
-        f"assets/backgrounds-assets/_PNG/{bg_index}/{i}.png"
-    ).convert_alpha()
-    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-    bg_images.append(bg_image)
-bg_width = bg_images[0].get_width()
+def load_bg_images(index):
+    bg_images = []
+    for i in range(7, 1, -1):
+        bg_image = pygame.image.load(
+            f"assets/backgrounds-assets/_PNG/{index}/{i}.png"
+        ).convert_alpha()
+        bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        bg_images.append(bg_image)
+    bg_width = bg_images[0].get_width()
+    return bg_images, bg_width
 
 
-def draw_bg(cris_list_dog1, cris_list_cat1, offset):
+def draw_bg(cris_list_dog1, cris_list_cat1, offset, images, width):
     for x in range(5):
         speed = 1
-        for i in bg_images:
-            screen.blit(i, ((x * bg_width) - offset * speed, 0))
+        for i in images:
+            screen.blit(i, ((x * width) - offset * speed, 0))
             speed += 0.2
             # drawing platforms
-            print(scroll)
     portal = pygame.transform.scale(portal_img, (300, 300))
     screen.blit(portal, (2500 - offset, 334))
     draw_platforms(plat_lst_1, screen, offset)
@@ -162,11 +165,11 @@ def draw_bg(cris_list_dog1, cris_list_cat1, offset):
     draw_crystals(screen, cris_list_cat1, offset)
 
 
-def draw_ground(offset):
+def draw_ground(offset, image, width, height):
     for x in range(15):
         screen.blit(
-            ground_image,
-            ((x * ground_width) - offset * 2.5, SCREEN_HEIGHT - ground_height),
+            image,
+            ((x * width) - offset * 2.5, SCREEN_HEIGHT - height),
         )
 
 
@@ -285,20 +288,10 @@ move_right = False
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
 finish = False
+
+bg_images, bg_width = load_bg_images(stage)
+ground_image, ground_width, ground_height = load_ground(stage)
 while run:
-    match stage:
-        case 1:
-            bg_index = 3
-            plat_lst = plat_lst_1
-        case 2:
-            bg_index = 2
-            plat_lst = plat_lst_2
-        case 3:
-            bg_index = 4
-            plat_lst = plat_lst_3
-        case 4:
-            bg_index = 1
-            plat_lst = plat_lst_4
     clock.tick(10)
     # update background
     screen.fill(BG)
@@ -313,8 +306,8 @@ while run:
     cat.update()
     # draw world
     combined_offset = (scroll+scroll_cat)//2
-    draw_bg(cris_list_dog, cris_list_cat, combined_offset)
-    draw_ground(combined_offset)
+    draw_bg(cris_list_dog, cris_list_cat, combined_offset, bg_images, bg_width)
+    draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
     key = pygame.key.get_pressed()
     # state handling----------------
@@ -402,6 +395,21 @@ while run:
             write_stage(stage)
             reset_game()
             finish = False
+            match stage:
+                case 1:
+                    bg_index = 3
+                    plat_lst = plat_lst_1
+                case 2:
+                    bg_index = 2
+                    plat_lst = plat_lst_2
+                case 3:
+                    bg_index = 4
+                    plat_lst = plat_lst_3
+                case 4:
+                    bg_index = 1
+                    plat_lst = plat_lst_4
+            bg_images, bg_width = load_bg_images(stage)
+            ground_image, ground_width, ground_height = load_ground(stage)
         else:
             end_game()
         
