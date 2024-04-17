@@ -333,9 +333,6 @@ while run:
                 dog.x += int(dog.horiz_speed * horiz_move)
 
     
-
-    if on_portal(dog, cat, combined_offset):
-        started = True
     
     if jumping:
         dog.y -= dog.y_velocity
@@ -397,6 +394,8 @@ while run:
         
         combined_offset = (scroll + scroll_cat)//2
         # draw world
+        if on_portal(dog, cat, combined_offset):
+            started = True
         draw_bg(combined_offset, bg_images, bg_width)
         draw_ground(combined_offset, ground_image, ground_width, ground_height)
         
