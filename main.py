@@ -174,9 +174,7 @@ def draw_ground(offset, image, width, height):
 
 
 def draw_platforms(platform_lst: list, screen, offset):
-    for plat in platform_lst:
-        plat.draw(screen, offset)
-        #plat.draw_rect(screen)
+    pass
 
 
 # background code---------------------------------------------------------------------end
@@ -232,15 +230,6 @@ cat_img = cat.get_frames_dic()["Idle"][0]
 jumping = False
 
 
-# collision check
-def plat_collision_check(player, platform_lst, offset):
-    for plat in platform_lst:
-        if (plat.x <= (player.x+offset) <= (plat.x+plat.width)) and (plat.y <= player.y <= (plat.y+plat.height)):
-            return True, plat
-    player.min_y = GROUND_LEVEL
-    return False, None
-
-
 def gravitational_force(player: Player, flag1, plat1):
     dog.update()
     jumping = False
@@ -280,6 +269,10 @@ def collect_crystal(cris_list, cris_cord_list):
 def end_game():
     pass
 
+
+def plat_collision_check(player, lst):
+    pass
+
 stage = read_stage()
 plat_lst = []
 joysticks = []
@@ -305,7 +298,6 @@ while run:
 
     cat.update()
     # draw world
-    combined_offset = (scroll+scroll_cat)//2
     draw_bg(cris_list_dog, cris_list_cat, combined_offset, bg_images, bg_width)
     draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
@@ -377,11 +369,6 @@ while run:
     if i >= len(dog.get_frames_dic()["Idle"]):
         i = 0
 
-    # collision handeling
-    flag, plat = plat_collision_check(dog, plat_lst, combined_offset)
-    if flag:
-        dog.y = plat.y - dog.height - plat.height
-
     #create_crystals(screen, cris_list_dog)
     move_crystals(cris_list_dog)
     # Yaniv stuff
@@ -393,7 +380,8 @@ while run:
         if stage < 4:
             stage += 1
             write_stage(stage)
-            reset_game()
+            dog.x = 0
+            dog.y = 634
             finish = False
             match stage:
                 case 1:
