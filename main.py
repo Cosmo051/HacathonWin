@@ -265,6 +265,7 @@ cris_flag = True
 finish = False
 cris_collected_counter = 0
 started = False
+horiz_move = 0
 def plat_collision_check(player, plat_list):
     for plat in plat_list:
         if plat.rect.colliderect(player.rect):
