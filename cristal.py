@@ -1,3 +1,5 @@
+import pygame
+from constants import *
 class Cristal:
     def __init__(self, x, y, width, height, path, kind): 
         self.x = x
@@ -6,8 +8,10 @@ class Cristal:
         self.width = width
         self.height = height
         self.path = path
-        self.kind = kind
+        self.kind = kind #dog cristal or cat cristal
         self.is_collected = False
+        self.range_of_movement = 10  # Define the range of movement
+        self.step = 1  # Define the step for movement
     
     def get_X(self):
         return self.x
@@ -21,10 +25,15 @@ class Cristal:
     def set_y(self, y):
         self.y = y
     
-    def move(self, steps, new_y):
-        if self.y >= new_y:
-            self.y += steps
-        else:
-            self.y -= steps
+    def move(self):
+        # Adjust y position within range_of_movement
+        if self.y <= self.root_y - self.range_of_movement or self.y >= self.root_y + self.range_of_movement:
+            self.step = -self.step  # Reverse direction when reaching boundaries
+        self.y += self.step
+
+    def draw(self, screen, offset):
+        img = pygame.image.load(self.path)
+        img = pygame.transform.scale(img, (self.width, self.height))
+        screen.blit(img, (self.x - offset, self.y))
     
 

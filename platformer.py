@@ -7,14 +7,14 @@ class Platform:
         self.height = height
         self.x = x
         self.y = y
-        self.rect = pygame.Rect(width, height, x, y)
+        self.rect = pygame.Rect(x, y, width, height)
     
     def get_rect(self):
         self.rect.topleft = (self.x, self.y)
         return self.rect
     
-    def update_plat_rect(self, x):
-        self.rect = pygame.Rect(x, self.y, self.width, self.height)
+    def update_plat_rect(self, offset):
+        self.rect.x -= offset
     
     def player_on_platform(self, player):
         plat = self.get_rect()
@@ -29,4 +29,4 @@ class Platform:
     
     def draw(self, screen:pygame.Surface, offset):
         screen.blit(self.img, (self.x - offset, self.y))
-        self.update_plat_rect(self.x - offset)
+        self.update_plat_rect(offset)
