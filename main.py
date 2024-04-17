@@ -62,81 +62,50 @@ def load_ground(index):
 plat_img_path = "assets\platform-img\PNG\Tiles\\tile50.png"
 # List 1
 plat_lst_1 = [
-    Platform(plat_img_path, 150, 30, 200, 50),
-    Platform(plat_img_path, 100, 20, 400, 150),
-    Platform(plat_img_path, 120, 40, 600, 250),
-    Platform(plat_img_path, 130, 25, 800, 350),
-    Platform(plat_img_path, 100, 30, 1000, 450),
-    Platform(plat_img_path, 110, 35, 1200, 550),
-    Platform(plat_img_path, 140, 25, 1400, 450),
-    Platform(plat_img_path, 90, 20, 1600, 350),
-    Platform(plat_img_path, 100, 30, 1800, 250),
-    Platform(plat_img_path, 120, 25, 2000, 150),
-    Platform(plat_img_path, 130, 30, 2200, 250),
-    Platform(plat_img_path, 100, 20, 2400, 150),
-    Platform(plat_img_path, 140, 25, 2600, 350),
-    Platform(plat_img_path, 150, 35, 2800, 450),
-    Platform(plat_img_path, 120, 30, 3000, 350)
+    Platform(plat_img_path, 80, 20, 200, 50),
+    Platform(plat_img_path, 70, 15, 400, 150),
+    Platform(plat_img_path, 60, 25, 600, 250),
+    Platform(plat_img_path, 50, 20, 800, 350),
+    Platform(plat_img_path, 40, 20, 1000, 450),
+    Platform(plat_img_path, 50, 25, 1200, 550),
+    Platform(plat_img_path, 60, 20, 1400, 450),
+    Platform(plat_img_path, 70, 15, 1600, 350)
 ]
 
 # List 2
 plat_lst_2 = [
-    Platform(plat_img_path, 100, 30, 100, 200),
-    Platform(plat_img_path, 120, 25, 300, 300),
-    Platform(plat_img_path, 140, 40, 500, 400),
-    Platform(plat_img_path, 110, 20, 700, 500),
-    Platform(plat_img_path, 130, 35, 900, 400),
-    Platform(plat_img_path, 150, 25, 1100, 300),
-    Platform(plat_img_path, 100, 30, 1300, 200),
-    Platform(plat_img_path, 120, 20, 1500, 100),
-    Platform(plat_img_path, 140, 25, 1700, 200),
-    Platform(plat_img_path, 110, 40, 1900, 300),
-    Platform(plat_img_path, 120, 30, 2100, 400),
-    Platform(plat_img_path, 100, 25, 2300, 500),
-    Platform(plat_img_path, 130, 35, 2500, 400),
-    Platform(plat_img_path, 140, 30, 2700, 300),
-    Platform(plat_img_path, 110, 20, 2900, 200),
-    Platform(plat_img_path, 150, 25, 3100, 300)
+    Platform(plat_img_path, 70, 20, 100, 200),
+    Platform(plat_img_path, 60, 15, 300, 300),
+    Platform(plat_img_path, 50, 25, 500, 400),
+    Platform(plat_img_path, 40, 20, 700, 500),
+    Platform(plat_img_path, 50, 25, 900, 400),
+    Platform(plat_img_path, 60, 15, 1100, 300),
+    Platform(plat_img_path, 70, 20, 1300, 200),
+    Platform(plat_img_path, 80, 25, 1500, 100)
 ]
 
 # List 3
 plat_lst_3 = [
-    Platform(plat_img_path, 130, 25, 200, 350),
-    Platform(plat_img_path, 140, 30, 400, 250),
-    Platform(plat_img_path, 120, 20, 600, 150),
-    Platform(plat_img_path, 100, 35, 800, 250),
-    Platform(plat_img_path, 110, 40, 1000, 350),
-    Platform(plat_img_path, 120, 25, 1200, 450),
-    Platform(plat_img_path, 140, 30, 1400, 350),
-    Platform(plat_img_path, 130, 20, 1600, 250),
-    Platform(plat_img_path, 100, 25, 1800, 150),
-    Platform(plat_img_path, 150, 30, 2000, 250),
-    Platform(plat_img_path, 120, 35, 2200, 350),
-    Platform(plat_img_path, 130, 20, 2400, 450),
-    Platform(plat_img_path, 140, 25, 2600, 350),
-    Platform(plat_img_path, 110, 30, 2800, 250),
-    Platform(plat_img_path, 100, 20, 3000, 150),
-    Platform(plat_img_path, 120, 25, 3200, 250)
+    Platform(plat_img_path, 50, 20, 200, 350),
+    Platform(plat_img_path, 40, 15, 400, 250),
+    Platform(plat_img_path, 60, 25, 600, 150),
+    Platform(plat_img_path, 70, 20, 800, 250),
+    Platform(plat_img_path, 50, 25, 1000, 350),
+    Platform(plat_img_path, 40, 15, 1200, 450),
+    Platform(plat_img_path, 60, 20, 1400, 350),
+    Platform(plat_img_path, 70, 25, 1600, 250)
 ]
 
 # List 4
 plat_lst_4 = [
-    Platform(plat_img_path, 120, 25, 100, 500),
-    Platform(plat_img_path, 110, 30, 300, 400),
-    Platform(plat_img_path, 140, 20, 500, 300),
-    Platform(plat_img_path, 130, 35, 700, 200),
-    Platform(plat_img_path, 150, 30, 900, 300),
-    Platform(plat_img_path, 100, 20, 1100, 400),
-    Platform(plat_img_path, 120, 25, 1300, 500),
-    Platform(plat_img_path, 140, 30, 1500, 400),
-    Platform(plat_img_path, 110, 20, 1700, 300),
-    Platform(plat_img_path, 130, 35, 1900, 400),
-    Platform(plat_img_path, 120, 25, 2100, 500),
-    Platform(plat_img_path, 140, 30, 2300, 400),
-    Platform(plat_img_path, 150, 20, 2500, 300),
-    Platform(plat_img_path, 130, 35, 2700, 200),
-    Platform(plat_img_path, 110, 30, 2900, 300),
-    Platform(plat_img_path, 120, 20, 3100, 400)
+    Platform(plat_img_path, 60, 20, 100, 500),
+    Platform(plat_img_path, 50, 15, 300, 400),
+    Platform(plat_img_path, 70, 25, 500, 300),
+    Platform(plat_img_path, 40, 20, 700, 200),
+    Platform(plat_img_path, 50, 25, 900, 300),
+    Platform(plat_img_path, 60, 15, 1100, 400),
+    Platform(plat_img_path, 70, 20, 1300, 500),
+    Platform(plat_img_path, 80, 25, 1500, 400)
 ]
 
 def load_bg_images(index):
