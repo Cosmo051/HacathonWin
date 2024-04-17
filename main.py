@@ -271,10 +271,12 @@ def collect_crystal(cris_list, cris_cord_list):
 def end_game():
     pass
 
-
+def start_stage(plats):
+    pass
 def plat_collision_check(player, lst):
     pass
-
+def enter_portal(dog, cat):
+    pass
 stage = read_stage()
 plat_lst = []
 joysticks = []
@@ -381,6 +383,9 @@ while run:
     if (not jumping):
         gravitational_force(dog)
         dog.update()
+    
+    if enter_portal(dog, cat):
+        start_stage(plat_lst)
     
     if finish:
         if stage < 4:
