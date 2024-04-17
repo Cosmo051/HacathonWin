@@ -243,7 +243,7 @@ def draw_platform(plat_lst):
 
 def on_portal(dog:Player, cat:Player, scroll):
     portal_rect = pygame.rect.Rect(portal_x, portal_y, portal_width, portal_height)
-    if portal_rect.colliderect(dog.get_rect()) and portal_rect.colliderect(cat.get_rect()):
+    if portal_rect.colliderect(dog.get_rect()) or portal_rect.colliderect(cat.get_rect()):
         return True
     return False
 
@@ -256,6 +256,20 @@ def plat_collision_check(player, lst):
     pass
 stage = read_stage()
 plat_lst = []
+match stage:
+    case 1:
+        bg_index = 3
+        plat_lst = plat_lst_1
+    case 2:
+        bg_index = 2
+        plat_lst = plat_lst_2
+    case 3:
+        bg_index = 4
+        plat_lst = plat_lst_3
+    case 4:
+        bg_index = 1
+        plat_lst = plat_lst_4
+
 joysticks = []
 move_left = False
 move_right = False
