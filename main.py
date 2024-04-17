@@ -9,6 +9,7 @@ from platformer import *
 from cristal import *
 import random
 from player import *
+pygame.joystick.init()
 pygame.init()
 
 SCREEN_WIDTH = 1600
@@ -260,6 +261,9 @@ def collect_crystal(cris_list, cris_cord_list):
             cris_cord_list[0].remove(cris_cord_list[0][i])
             cris_cord_list[1].remove(cris_cord_list[1][i])
 
+joysticks = []
+move_left = False
+move_right = False
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
 while run:
@@ -282,16 +286,52 @@ while run:
     
     key = pygame.key.get_pressed()
     # state handling----------------
-    if key[pygame.K_d]:
-        state_dog = "Walk"
-        if dog.get_x() < WALKING_LIMIT:
-            dog.move_x(1)
-    elif key[pygame.K_a]:
-        state_dog = "WalkBack"
-        if dog.get_x() > 0:
-            dog.move_x(-1)
+    if len(joysticks) == 0:
+        if key[pygame.K_d]:
+            state_dog = "Walk"
+            if dog.x < WALKING_LIMIT:
+                dog.x += dog.horiz_speed
+        elif key[pygame.K_a]:
+            state_dog = "WalkBack"
+            if dog.x >= 0:
+                dog.x -= dog.horiz_speed
+        else:
+            state_dog = "Idle"
+        
+        if (
+        cat.get_x() > SCREEN_WIDTH / 2
+        and dog.get_x() > SCREEN_WIDTH / 2
+        and key[pygame.K_d]
+        ):
+            scroll += 5
+
+        if (
+        cat.get_x() < SCREEN_WIDTH / 2
+        and dog.get_x() < SCREEN_WIDTH / 2
+        and key[pygame.K_a]
+        ):
+            scroll -= 5
     else:
-        state_dog = "Idle"
+        for joystick in joysticks:
+            if joystick.get_button(0):
+                jumping = True
+            
+            #player movement with stick
+            horiz_move = joystick.get_axis(0)
+            if horiz_move > 0.05:
+                state_dog = "Walk"
+            elif horiz_move < -0.05:
+                state_dog = "WalkBack"
+            else:
+                state_dog = "Idle"
+            
+            if state_dog != "idle" and (0 <= dog.x <= WALKING_LIMIT):
+                dog.x += int(dog.horiz_speed * horiz_move)
+            
+            if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
+                scroll += 5
+            if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
+                scroll -= 0.05
     
     if key[pygame.K_SPACE]:
         jumping = True
@@ -305,20 +345,6 @@ while run:
             jumping = False
         dog.update()
 
-    if (
-        cat.get_x() > SCREEN_WIDTH / 2
-        and dog.get_x() > SCREEN_WIDTH / 2
-        and key[pygame.K_d]
-    ):
-        scroll += 5
-
-    if (
-        cat.get_x() < SCREEN_WIDTH / 2
-        and dog.get_x() < SCREEN_WIDTH / 2
-        and key[pygame.K_a]
-    ):
-        scroll -= 5
-
     # show frame image
     i += 1
     if i >= len(dog.get_frames_dic()["Idle"]):
@@ -331,14 +357,15 @@ while run:
 
     #create_crystals(screen, cris_list_dog)
     move_crystals(cris_list_dog)
-
-
     # Yaniv stuff
     if (not jumping):
         gravitational_force(dog, flag, plat)
         dog.update()
     # event handler
     for event in pygame.event.get():
+        if event.type == pygame.JOYDEVICEADDED:
+            joy = pygame.joystick.Joystick(event.device_index)
+            joysticks.append(joy)
         if event.type == pygame.QUIT:
             run = False
     dog.update()

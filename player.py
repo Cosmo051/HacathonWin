@@ -12,6 +12,7 @@ class Player:
         self.width = width * (SCALE - 1)
         self.height = height * (SCALE - 1)
         self.rect = pygame.Rect(x, y + height, self.width, self.height)
+        self.horiz_speed = 50
         self.frames_dic = {
             "Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"),
             "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png"),
@@ -47,6 +48,8 @@ class Player:
     def move_x(self, state):
         self.x += SPEED * state
         self.update()
+    def move_x_with_stick(self, horiz_move):
+        self.x += int(horiz_move * self.horiz_speed)
 
 def flip_images(img_arr):
     flipped_arr = []
