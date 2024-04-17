@@ -39,7 +39,7 @@ def flip_images(img_arr):
 # background code---------------------------------------------------------start
 # define game variables
 scroll = 0
-bg_index = 2
+bg_index = 1
 
 ground_image = pygame.image.load(
     f"assets/backgrounds-assets/_PNG/{bg_index}/1.png"
@@ -249,6 +249,12 @@ def draw_crystals(screen, cris_list, offset):
 def move_crystals(cris_list):
     for cris in cris_list:
         cris.move()
+def collect_crystal(cris_list, cris_cord_list : list):
+    for i in range(len(cris_list)):
+        if (cris_list[i].get_x() > dog.x and cris_list[i].get_x() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height):
+            cris_list[i].is_collected = True
+            cris_cord_list.remove(cris_cord_list[0][i])
+            cris_cord_list.remove(cris_cord_list[1][i])
 
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
@@ -331,6 +337,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
+    collect_crystal(cris_list_dog, cris_list_cord)
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
