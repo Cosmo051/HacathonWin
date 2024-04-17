@@ -145,6 +145,7 @@ def draw_bg(cris_list_dog1, cris_list_cat1):
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
             # drawing platforms
+            print(scroll)
     portal = pygame.transform.scale(portal_img, (300, 300))
     screen.blit(portal, (2500 - scroll, 334))
     draw_platforms(plat_lst_1, screen, scroll)
@@ -294,7 +295,6 @@ while run:
     if jumping:
         dog.y -= dog.y_velocity
         dog.y_velocity -= dog.y_gravity
-        print(dog.y_velocity)
         dog.update()
         if dog.jump_height < -dog.y_velocity:
             dog.y_velocity = dog.jump_height
