@@ -314,7 +314,6 @@ while run:
         if key[pygame.K_SPACE]:
             jumping = True
     else:
-        horiz_move = 0
         for joystick in joysticks:
             if joystick.get_button(0):
                 jumping = True
@@ -328,8 +327,9 @@ while run:
             else:
                 state_dog = "Idle"
             
-            if (0 <= dog.x < WALKING_LIMIT):
+            if (0 <= dog.x <= WALKING_LIMIT):
                 dog.x += int(dog.horiz_speed * horiz_move)
+
 
     
     
@@ -354,7 +354,7 @@ while run:
         gravitational_force(dog)
         dog.update()
     
-    if on_portal(dog, cat):
+    if on_portal(dog, cat, combined_offset):
         started = True
         dog.x = 0
     
@@ -377,7 +377,7 @@ while run:
         if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
             scroll += 5
         if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
-            scroll -= 0.05
+            scroll -= 5
         
         if (
         cat.get_x() > SCREEN_WIDTH / 2
@@ -394,13 +394,10 @@ while run:
             scroll -= 5
         
         combined_offset = (scroll + scroll_cat)//2
-        # draw world
-        if on_portal(dog, cat, combined_offset):
-            started = True
         draw_bg(combined_offset, bg_images, bg_width)
         draw_ground(combined_offset, ground_image, ground_width, ground_height)
-        
-
+    
+    print(str(pygame.joystick.get_count()))
     if finish:
         if stage < 4:
             stage += 1
