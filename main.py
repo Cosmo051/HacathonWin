@@ -232,8 +232,8 @@ def collect_crystal(cris_list, cris_cord_list):
             cris_list.remove(cris_list[i])
 
 
-portal_width = 300
-portal_height = 300
+portal_width = 600
+portal_height = 600
 portal_x = 2500
 portal_y = 634
 
@@ -242,7 +242,7 @@ def draw_platform(plat_lst):
         plat.draw(screen)
 
 def on_portal(dog, cat, scroll):
-    if ((portal_x - scroll) < dog.x < (portal_x + portal_width - scroll)) and (portal_y < cat.y < (portal_y + portal_height) and portal_x < cat.x < (portal_x + portal_width)) and (portal_y < cat.y < (portal_y + portal_height)):
+    if ((portal_x - scroll) < dog.x < (portal_x + portal_width - scroll)) and (portal_y < cat.y < (portal_y + portal_height)) and ((portal_x - scroll) < cat.x < (portal_x + portal_width - scroll)) and (portal_y < cat.y < (portal_y + portal_height)):
         return True
     return False
 
@@ -330,7 +330,7 @@ while run:
             else:
                 state_dog = "Idle"
             
-            if (0 <= dog.x <= WALKING_LIMIT):
+            if (0 <= dog.x < WALKING_LIMIT):
                 dog.x += int(dog.horiz_speed * horiz_move)
 
     
