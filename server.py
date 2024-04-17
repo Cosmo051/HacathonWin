@@ -19,10 +19,10 @@ print("Waiting for a connection, Server Started")
 
 def read_pos(str:str):
     str = str.split("_")
-    return int(str[0]), int(str[1]), str[2], eval(str[3])
+    return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4])
 
 def make_pos(tup):
-    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
+    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
 
 cris_pos = [
     [[
@@ -52,7 +52,8 @@ cris_pos = [
         random.randint(50, 630),
     ]]
 ]
-pos = [(0,634, "Idle", cris_pos[0]), (0,634, "Idle", cris_pos[1])]
+scroll = 0
+pos = [(0,634, "Idle", cris_pos[0], scroll), (0,634, "Idle", cris_pos[1], scroll)]
 
 
 def threaded_client(conn, current_player):
