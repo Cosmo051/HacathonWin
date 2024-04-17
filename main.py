@@ -39,7 +39,7 @@ def flip_images(img_arr):
 # background code---------------------------------------------------------start
 # define game variables
 scroll = 0
-bg_index = 2
+bg_index = 1
 
 ground_image = pygame.image.load(
     f"assets/backgrounds-assets/_PNG/{bg_index}/1.png"
