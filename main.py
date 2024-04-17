@@ -218,9 +218,9 @@ jumping = False
 
 
 # collision check
-def plat_collision_check(player, platform_lst):
+def plat_collision_check(player, platform_lst, offset):
     for plat in platform_lst:
-        if plat.player_on_platform(player):
+        if (plat.x <= (player.x+offset) <= (plat.x+plat.width)) and (plat.y <= player.y <= (plat.y+plat.height)):
             return True, plat
     player.min_y = GROUND_LEVEL
     return False, None
