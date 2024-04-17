@@ -8,58 +8,8 @@ from network import Network
 from platformer import *
 from cristal import *
 import random
-
+from player import *
 pygame.init()
-
-
-# connect the sprite to the class
-class Player:
-    def __init__(self, x, y, width, height, name):
-        self.x = x
-        self.y = y
-        self.y_gravity = 2
-        self.min_y = GROUND_LEVEL
-        self.jump_height = 30
-        self.y_velocity = self.jump_height
-        self.width = width * (SCALE - 1)
-        self.height = height * (SCALE - 1)
-        self.rect = pygame.Rect(x, y + height, self.width, self.height)
-        self.frames_dic = {
-            "Idle": init_sprite(f"assets\street-animal\{name}\Idle.png"),
-            "Walk": init_sprite(f"assets\street-animal\{name}\Walk.png"),
-            "WalkBack": flip_images(
-                init_sprite(f"assets\street-animal\{name}\Walk.png")
-            ),
-        }
-
-    def draw_rect(self, window):
-        pygame.draw.rect(window, "black", self.rect)
-
-    def set_y(self, y):
-        self.y = y - self.height
-
-    def update(self):
-        self.rect = pygame.Rect(self.x, self.y + (self.height/(SCALE - 1)), self.width, self.height)
-
-    def get_x(self):
-        return self.x
-
-    def get_y(self):
-        return self.y
-
-    def get_rect(self):
-        return self.rect
-
-    def get_frames_dic(self):
-        return self.frames_dic
-
-    def draw(self, screen, state, index):
-        screen.blit(self.frames_dic[state][index], (self.x, self.y))
-
-    def move_x(self, state):
-        self.x += SPEED * state
-        self.update()
-
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 864
@@ -194,7 +144,7 @@ def draw_bg(cris_list_dog1, cris_list_cat1):
         for i in bg_images:
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
-        if i==4:
+        if x==4:
             # drawing platforms
             portal = pygame.transform.scale(portal_img, (300, 300))
             screen.blit(portal, (2500 - scroll, 334))
