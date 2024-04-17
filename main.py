@@ -194,12 +194,13 @@ def draw_bg(cris_list_dog1, cris_list_cat1):
         for i in bg_images:
             screen.blit(i, ((x * bg_width) - scroll * speed, 0))
             speed += 0.2
-    # drawing platforms
-    portal = pygame.transform.scale(portal_img, (300, 300))
-    screen.blit(portal, (2500 - scroll, 334))
-    draw_platforms(plat_lst_1, screen, scroll)
-    draw_crystals(screen, cris_list_dog1, scroll)
-    draw_crystals(screen, cris_list_cat1, scroll)
+        if i==4:
+            # drawing platforms
+            portal = pygame.transform.scale(portal_img, (300, 300))
+            screen.blit(portal, (2500 - scroll, 334))
+            draw_platforms(plat_lst_1, screen, scroll)
+            draw_crystals(screen, cris_list_dog1, scroll)
+            draw_crystals(screen, cris_list_cat1, scroll)
 
 
 def draw_ground():
