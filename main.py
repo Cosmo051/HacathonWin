@@ -225,6 +225,7 @@ def plat_collision_check(player, platform_lst):
 
 def gravitational_force(player: Player, flag1, plat1):
     dog.update()
+    jumping = False
     if (not flag1) and (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
