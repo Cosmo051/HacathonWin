@@ -18,10 +18,14 @@ s.listen(2) #limit for 2 ppl
 print("Waiting for a connection, Server Started")
 
 def read_pos(str:str):
+    if str == "reset":
+        return "reset"
     str = str.split("_")
     return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4])
 
 def make_pos(tup):
+    if tup == "reset":
+        return "reset"
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
 
 cris_pos = [
@@ -54,7 +58,7 @@ cris_pos = [
 ]
 scroll = 0
 pos = [(0,634, "Idle", cris_pos[0], scroll), (0,634, "Idle", cris_pos[1], scroll)]
-
+reset_pos = [(0,634, "Idle", cris_pos[0], scroll), (0,634, "Idle", cris_pos[1], scroll)]
 
 def threaded_client(conn, current_player):
     conn.send(str.encode(make_pos(pos[current_player])))
@@ -62,20 +66,24 @@ def threaded_client(conn, current_player):
     while True:
         try:
             data = read_pos(conn.recv(2048*4).decode()) #if thre is an error increas the size
-            pos[current_player] = data
 
             if not data:
                 print("Disconnected")
                 break
             else:
-                if current_player == 1:
-                    reply = pos[0]
+                if data == "reset":
+                    pos[0] = reset_pos[0]
+                    pos[1] = reset_pos[1]
+                    continue
                 else:
-                    reply = pos[1]
+                    if current_player == 1:
+                        reply = pos[0]
+                    else:
+                        reply = pos[1]
 
                 print("Received: ", data)
                 print("Sending: ", reply)
-            
+            pos[current_player] = data
             conn.sendall(str.encode(make_pos(reply)))
         except:
             break

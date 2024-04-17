@@ -19,7 +19,7 @@ BLACK = (0, 0, 0)
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
-
+STAGE_FILE = "stage.stg"
 #def run_other_file(file_path):
     #try:
         #subprocess.run(['python', file_path], check=True)
@@ -36,7 +36,15 @@ def flip_images(img_arr):
         flipped_arr.append(flipped_img)
     return flipped_arr
 
+def read_stage():
+    curr_stage = 0
+    with open(STAGE_FILE, 'r') as file:
+        curr_stage = int(file.read())
+    return curr_stage
 
+def write_stage(new_stage):
+    with open(STAGE_FILE, 'w') as file:
+        file.write(new_stage)
 # background code---------------------------------------------------------start
 # define game variables
 scroll = 0
@@ -173,11 +181,14 @@ def draw_platforms(platform_lst: list, screen, offset):
 
 # position helper func
 def read_pos(str:str):
+    if str == "reset":
+        return "reset"
     str = str.split("_")
-    print(str[0])
     return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4])
 
 def make_pos(tup):
+    if tup == "reset":
+        return "reset"
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
 
 
@@ -239,6 +250,8 @@ def gravitational_force(player: Player, flag1, plat1):
         player.y = plat1.y - player.height - plat1.height
 
 
+def reset_game():
+    n.send("reset")
 
 def create_crystals(coor):
     cris_list_created = []
@@ -261,12 +274,31 @@ def collect_crystal(cris_list, cris_cord_list):
             cris_cord_list[0].remove(cris_cord_list[0][i])
             cris_cord_list[1].remove(cris_cord_list[1][i])
 
+def end_game():
+    pass
+
+stage = read_stage()
+plat_lst = []
 joysticks = []
 move_left = False
 move_right = False
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
+finish = False
 while run:
+    match stage:
+        case 1:
+            bg_index = 3
+            plat_lst = plat_lst_1
+        case 2:
+            bg_index = 2
+            plat_lst = plat_lst_2
+        case 3:
+            bg_index = 4
+            plat_lst = plat_lst_3
+        case 4:
+            bg_index = 1
+            plat_lst = plat_lst_4
     clock.tick(10)
     # update background
     screen.fill(BG)
@@ -295,6 +327,8 @@ while run:
             state_dog = "WalkBack"
             if dog.x >= 0:
                 dog.x -= dog.horiz_speed
+        elif key[pygame.K_e]:
+            finish = True
         else:
             state_dog = "Idle"
         
@@ -351,7 +385,7 @@ while run:
         i = 0
 
     # collision handeling
-    flag, plat = plat_collision_check(dog, plat_lst_1, combined_offset)
+    flag, plat = plat_collision_check(dog, plat_lst, combined_offset)
     if flag:
         dog.y = plat.y - dog.height - plat.height
 
@@ -361,6 +395,16 @@ while run:
     if (not jumping):
         gravitational_force(dog, flag, plat)
         dog.update()
+    
+    if finish:
+        if stage < 4:
+            stage += 1
+            write_stage(stage)
+            reset_game()
+            finish = False
+        else:
+            end_game()
+        
     # event handler
     for event in pygame.event.get():
         if event.type == pygame.JOYDEVICEADDED:
