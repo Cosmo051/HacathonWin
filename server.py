@@ -30,11 +30,11 @@ def make_pos(tup):
 
 cris_pos = [
     [[
-        random.randint(100, 2500),
-        random.randint(100, 2500),
-        random.randint(100, 2500),
-        random.randint(100, 2500),
-        random.randint(100, 2500)
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550)
     ],[
         random.randint(50, 630),
         random.randint(50, 630),
@@ -43,11 +43,11 @@ cris_pos = [
         random.randint(50, 630),
     ]],
     [[
-        random.randint(100, 2500),
-        random.randint(100, 2500),
-        random.randint(100, 2500),
-        random.randint(100, 2500),
-        random.randint(100, 2500)
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550)
     ],[
         random.randint(50, 630),
         random.randint(50, 630),

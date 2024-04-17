@@ -120,7 +120,7 @@ def load_bg_images(index):
     return bg_images, bg_width
 
 
-def draw_bg(cris_list_dog1, cris_list_cat1, offset, images, width):
+def draw_bg(offset, images, width):
     for x in range(5):
         speed = 1
         for i in images:
@@ -129,9 +129,6 @@ def draw_bg(cris_list_dog1, cris_list_cat1, offset, images, width):
             # drawing platforms
     portal = pygame.transform.scale(portal_img, (300, 300))
     screen.blit(portal, (2500 - offset, 334))
-    draw_platforms(plat_lst_1, screen, offset)
-    draw_crystals(screen, cris_list_dog1, offset)
-    draw_crystals(screen, cris_list_cat1, offset)
 
 
 def draw_ground(offset, image, width, height):
@@ -142,8 +139,6 @@ def draw_ground(offset, image, width, height):
         )
 
 
-def draw_platforms(platform_lst: list, screen, offset):
-    pass
 
 
 # background code---------------------------------------------------------------------end
@@ -212,15 +207,15 @@ def gravitational_force(player: Player):
 def reset_game():
     n.send("reset")
 
-def create_crystals(coor):
+def create_crystals(coor, type): #type is "dog" or "cat"
     cris_list_created = []
     for i in range(len(coor[0])):
-        cris_list_created.append(Cristal(coor[0][i], coor[1][i], CRIS_WIDTH, CRIS_HEIGHT, "assets\cristal assets\PNG\shiny\\4.png", "dog"))
+        cris_list_created.append(Cristal(coor[0][i], coor[1][i], CRIS_WIDTH, CRIS_HEIGHT, type))
     return cris_list_created
 
-def draw_crystals(screen, cris_list, offset):
+def draw_crystals(screen, cris_list):
     for cris in cris_list:
-        cris.draw(screen, offset)
+        cris.draw(screen)
 
 def move_crystals(cris_list):
     for cris in cris_list:
@@ -254,19 +249,29 @@ plat_lst = []
 joysticks = []
 move_left = False
 move_right = False
-cris_list_dog = create_crystals(cris_list_cord)
+cris_list_dog = create_crystals(cris_list_cord, "dog")
 cris_flag = True
 finish = False
 cris_collected_counter = 0
-
+started = False
 def plat_collision_check(player, plat_list):
     for plat in plat_list:
         if plat.rect.colliderect(player.rect):
-            return True
-    return False
+            return True, plat
+    return False, None
+
+
 
 bg_images, bg_width = load_bg_images(stage)
 ground_image, ground_width, ground_height = load_ground(stage)
+
+def draw_static_bg(screen):
+    bg_image = pygame.image.load(
+            f"assets/backgrounds-assets/_PNG/{bg_index}/background.png"
+        )
+    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen.blit(bg_image, (0,0))
+
 while run:
     clock.tick(10)
     # update background
@@ -277,13 +282,9 @@ while run:
     cat.y = cat_pos[1]
     state_cat = cat_pos[2]
     scroll_cat = cat_pos[4]
-    cris_list_cat = create_crystals(cat_pos[3])
+    cris_list_cat = create_crystals(cat_pos[3], "cat")
     print(cat_pos)
     cat.update()
-    combined_offset = (scroll + scroll_cat)//2
-    # draw world
-    draw_bg(cris_list_dog, cris_list_cat, combined_offset, bg_images, bg_width)
-    draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
     key = pygame.key.get_pressed()
     # state handling----------------
@@ -302,21 +303,8 @@ while run:
             state_dog = "Idle"
         if key[pygame.K_SPACE]:
             jumping = True
-        
-        if (
-        cat.get_x() > SCREEN_WIDTH / 2
-        and dog.get_x() > SCREEN_WIDTH / 2
-        and key[pygame.K_d]
-        ):
-            scroll += 5
-
-        if (
-        cat.get_x() < SCREEN_WIDTH / 2
-        and dog.get_x() < SCREEN_WIDTH / 2
-        and key[pygame.K_a]
-        ):
-            scroll -= 5
     else:
+        horiz_move = 0
         for joystick in joysticks:
             if joystick.get_button(0):
                 jumping = True
@@ -332,11 +320,7 @@ while run:
             
             if (0 <= dog.x <= WALKING_LIMIT):
                 dog.x += int(dog.horiz_speed * horiz_move)
-            
-            if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
-                scroll += 5
-            if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
-                scroll -= 0.05
+
     
 
     
@@ -362,8 +346,48 @@ while run:
         dog.update()
     
     if enter_portal(dog, cat):
-        start_stage(plat_lst)
+        started = True
+        dog.x = 0
     
+    if started:
+        draw_static_bg(screen)
+        draw_platform(plat_lst)
+        draw_crystals(screen, cris_list_dog)
+        draw_crystals(screen, cris_list_cat)
+
+        flag, plat = plat_collision_check(dog, plat_lst)
+        if flag:
+            dog.y = plat.y - plat.height - dog.height
+        
+        if dog.y <= 0 and cat.y <= 0:
+            started = False
+            finish = True
+    else:
+        if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
+            scroll += 5
+        if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
+            scroll -= 0.05
+        
+        if (
+        cat.get_x() > SCREEN_WIDTH / 2
+        and dog.get_x() > SCREEN_WIDTH / 2
+        and key[pygame.K_d]
+        ):
+            scroll += 5
+
+        if (
+        cat.get_x() < SCREEN_WIDTH / 2
+        and dog.get_x() < SCREEN_WIDTH / 2
+        and key[pygame.K_a]
+        ):
+            scroll -= 5
+        
+        combined_offset = (scroll + scroll_cat)//2
+        # draw world
+        draw_bg(combined_offset, bg_images, bg_width)
+        draw_ground(combined_offset, ground_image, ground_width, ground_height)
+        
+
     if finish:
         if stage < 4:
             stage += 1
