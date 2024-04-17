@@ -182,6 +182,8 @@ def make_pos(tup):
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
+    draw_crystals(cris_list_dog1)
+    draw_crystals(cris_list_cat1)
     portal = pygame.transform.scale(portal, (300, 300))
     screen.blit(portal, (2500, 634))
     pygame.display.update()
