@@ -350,7 +350,7 @@ while run:
         i = 0
 
     #create_crystals(screen, cris_list_dog)
-    move_crystals(cris_list_dog)
+    
     # Yaniv stuff
     if (not jumping):
         gravitational_force(dog)
@@ -365,7 +365,9 @@ while run:
         draw_platform(plat_lst)
         draw_crystals(screen, cris_list_dog)
         draw_crystals(screen, cris_list_cat)
-
+        move_crystals(cris_list_dog)
+        collect_crystal(cris_list_dog, cris_list_cord)
+        
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
             dog.y = plat.y - plat.height - dog.height
@@ -434,7 +436,6 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    collect_crystal(cris_list_dog, cris_list_cord)
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
