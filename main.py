@@ -263,8 +263,12 @@ def collect_crystal(cris_list, cris_cord_list):
     for i in range(len(cris_list)):
         if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height):
             cris_list[i].is_collected = True
+            print(i)
+            print(cris_cord_list[0][i])
             cris_cord_list[0].remove(cris_cord_list[0][i])
             cris_cord_list[1].remove(cris_cord_list[1][i])
+            cris_list.remove(cris_list[i])
+
 
 def end_game():
     pass
@@ -281,6 +285,7 @@ move_right = False
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
 finish = False
+cris_collected_counter = 0
 
 bg_images, bg_width = load_bg_images(stage)
 ground_image, ground_width, ground_height = load_ground(stage)
@@ -295,6 +300,7 @@ while run:
     state_cat = cat_pos[2]
     scroll_cat = cat_pos[4]
     cris_list_cat = create_crystals(cat_pos[3])
+    print(cat_pos)
 
     cat.update()
     # draw world
@@ -316,6 +322,8 @@ while run:
             finish = True
         else:
             state_dog = "Idle"
+        if key[pygame.K_SPACE]:
+            jumping = True
         
         if (
         cat.get_x() > SCREEN_WIDTH / 2
@@ -344,7 +352,7 @@ while run:
             else:
                 state_dog = "Idle"
             
-            if state_dog != "idle" and (0 <= dog.x <= WALKING_LIMIT):
+            if (0 <= dog.x <= WALKING_LIMIT):
                 dog.x += int(dog.horiz_speed * horiz_move)
             
             if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
@@ -352,8 +360,7 @@ while run:
             if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
                 scroll -= 0.05
     
-    if key[pygame.K_SPACE]:
-        jumping = True
+
     
     if jumping:
         dog.y -= dog.y_velocity
@@ -409,7 +416,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    # collect_crystal(cris_list_dog, cris_list_cord)
+    collect_crystal(cris_list_dog, cris_list_cord)
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
