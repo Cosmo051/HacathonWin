@@ -253,8 +253,8 @@ def collect_crystal(cris_list, cris_cord_list):
     for i in range(len(cris_list)):
         if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height):
             cris_list[i].is_collected = True
-            cris_cord_list.remove(cris_cord_list[0][i])
-            cris_cord_list.remove(cris_cord_list[1][i])
+            cris_cord_list[0].remove(cris_cord_list[0][i])
+            cris_cord_list[1].remove(cris_cord_list[1][i])
 
 cris_list_dog = create_crystals(cris_list_cord)
 cris_flag = True
