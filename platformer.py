@@ -14,7 +14,7 @@ class Platform:
         return self.rect
     
     def update_plat_rect(self, offset):
-        self.rect.move_ip(-offset, 0)
+        self.rect.move_ip(offset, 0)
     
     def player_on_platform(self, player):
         plat = self.get_rect()
