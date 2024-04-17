@@ -257,6 +257,12 @@ cris_flag = True
 finish = False
 cris_collected_counter = 0
 
+def plat_collision_check(player, plat_list):
+    for plat in plat_list:
+        if plat.rect.colliderect(player.rect):
+            return True
+    return False
+
 bg_images, bg_width = load_bg_images(stage)
 ground_image, ground_width, ground_height = load_ground(stage)
 while run:
@@ -271,7 +277,6 @@ while run:
     scroll_cat = cat_pos[4]
     cris_list_cat = create_crystals(cat_pos[3])
     print(cat_pos)
-
     cat.update()
     combined_offset = (scroll + scroll_cat)//2
     # draw world
