@@ -178,7 +178,7 @@ def read_pos(str:str):
 def make_pos(tup):
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, cris_list_dog1, cris_list_cat1):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
     portal = pygame.transform.scale(portal, (300, 300))
@@ -331,7 +331,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, cris_list_cat, cris_list_dog)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 
 pygame.quit()
