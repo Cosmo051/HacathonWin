@@ -242,8 +242,9 @@ def draw_platform(plat_lst):
         plat.draw(screen)
 
 def on_portal(dog, cat, scroll):
-    if (portal_x < dog.x < (portal_x + portal_width)) and (portal_y < cat.y < (portal_y + portal_height) and portal_x < cat.x < (portal_x + portal_width)) and (portal_y < cat.y < (portal_y + portal_height)):
+    if ((portal_x - scroll) < dog.x < (portal_x + portal_width - scroll)) and (portal_y < cat.y < (portal_y + portal_height) and portal_x < cat.x < (portal_x + portal_width)) and (portal_y < cat.y < (portal_y + portal_height)):
         return True
+    return False
 
 def end_game():
     pass
@@ -333,6 +334,8 @@ while run:
 
     
 
+    if on_portal(dog, cat, combined_offset):
+        started = True
     
     if jumping:
         dog.y -= dog.y_velocity
