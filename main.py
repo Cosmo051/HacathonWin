@@ -223,16 +223,15 @@ def plat_collision_check(player, platform_lst):
     return False, None
 
 
-def gravitational_force(player: Player):
-    flag, plat = plat_collision_check(player, plat_lst_1)
+def gravitational_force(player: Player, flag1, plat1):
     dog.update()
-    if (not flag) and (player.get_y() < GROUND_LEVEL):
+    if (not flag1) and (player.get_y() < GROUND_LEVEL):
         if player.y + GRAVITY > GROUND_LEVEL:
             player.y = GROUND_LEVEL
         else:
             player.y = player.y + GRAVITY
-    elif flag:
-        player.y = plat.y - player.height - plat.height
+    elif flag1:
+        player.y = plat1.y - player.height - plat1.height
 
 
 
@@ -324,7 +323,7 @@ while run:
 
     # Yaniv stuff
     if (not jumping):
-        gravitational_force(dog)
+        gravitational_force(dog, flag, plat)
         dog.update()
     # event handler
     for event in pygame.event.get():
