@@ -25,7 +25,7 @@ def make_pos(tup):
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
 
 cris_pos = [
-    ([
+    [[
         random.randint(100, 2500),
         random.randint(100, 2500),
         random.randint(100, 2500),
@@ -37,8 +37,8 @@ cris_pos = [
         random.randint(50, 630),
         random.randint(50, 630),
         random.randint(50, 630),
-    ]),
-    ([
+    ]],
+    [[
         random.randint(100, 2500),
         random.randint(100, 2500),
         random.randint(100, 2500),
@@ -50,7 +50,7 @@ cris_pos = [
         random.randint(50, 630),
         random.randint(50, 630),
         random.randint(50, 630),
-    ])
+    ]]
 ]
 pos = [(0,634, "Idle", cris_pos[0]), (0,634, "Idle", cris_pos[1])]
 
