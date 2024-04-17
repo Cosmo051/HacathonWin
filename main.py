@@ -253,8 +253,6 @@ def start_stage(plats):
     pass
 def plat_collision_check(player, lst):
     pass
-def enter_portal(dog, cat):
-    pass
 stage = read_stage()
 plat_lst = []
 joysticks = []
@@ -356,7 +354,7 @@ while run:
         gravitational_force(dog)
         dog.update()
     
-    if enter_portal(dog, cat):
+    if on_portal(dog, cat):
         started = True
         dog.x = 0
     
@@ -367,7 +365,7 @@ while run:
         draw_crystals(screen, cris_list_cat)
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
-        
+
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
             dog.y = plat.y - plat.height - dog.height
