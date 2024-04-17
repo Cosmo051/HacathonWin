@@ -138,26 +138,26 @@ for i in range(7, 1, -1):
 bg_width = bg_images[0].get_width()
 
 
-def draw_bg(cris_list_dog1, cris_list_cat1):
+def draw_bg(cris_list_dog1, cris_list_cat1, offset):
     for x in range(5):
         speed = 1
         for i in bg_images:
-            screen.blit(i, ((x * bg_width) - scroll * speed, 0))
+            screen.blit(i, ((x * bg_width) - offset * speed, 0))
             speed += 0.2
             # drawing platforms
             print(scroll)
     portal = pygame.transform.scale(portal_img, (300, 300))
-    screen.blit(portal, (2500 - scroll, 334))
-    draw_platforms(plat_lst_1, screen, scroll)
-    draw_crystals(screen, cris_list_dog1, scroll)
-    draw_crystals(screen, cris_list_cat1, scroll)
+    screen.blit(portal, (2500 - offset, 334))
+    draw_platforms(plat_lst_1, screen, offset)
+    draw_crystals(screen, cris_list_dog1, offset)
+    draw_crystals(screen, cris_list_cat1, offset)
 
 
-def draw_ground():
+def draw_ground(offset):
     for x in range(15):
         screen.blit(
             ground_image,
-            ((x * ground_width) - scroll * 2.5, SCREEN_HEIGHT - ground_height),
+            ((x * ground_width) - offset * 2.5, SCREEN_HEIGHT - ground_height),
         )
 
 
@@ -167,17 +167,18 @@ def draw_platforms(platform_lst: list, screen, offset):
         #plat.draw_rect(screen)
 
 
-# background code---------------------------------------------------------end
+# background code---------------------------------------------------------------------end
 
 
 # position helper func
 def read_pos(str:str):
     str = str.split("_")
     print(str[0])
-    return int(str[0]), int(str[1]), str[2], eval(str[3])
+    return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4])
 
 def make_pos(tup):
-    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3])
+    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
+
 
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
     dog.draw(window, dog_state, index)
@@ -201,6 +202,7 @@ i = 0
 state_dog = start_pos[2]
 state_cat = 0
 cris_list_cord = start_pos[3]
+scroll = start_pos[4]
 dog_x = 0
 cat_x = 0
 
@@ -265,16 +267,18 @@ while run:
     # update background
     screen.fill(BG)
 
-    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord))))
+    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord, scroll))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
     state_cat = cat_pos[2]
+    scroll_cat = cat_pos[4]
     cris_list_cat = create_crystals(cat_pos[3])
 
     cat.update()
     # draw world
-    draw_bg(cris_list_dog, cris_list_cat)
-    draw_ground()
+    combined_offset = (scroll+scroll_cat)//2
+    draw_bg(cris_list_dog, cris_list_cat, combined_offset)
+    draw_ground(combined_offset)
     
     key = pygame.key.get_pressed()
     # state handling----------------
