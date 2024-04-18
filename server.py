@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 import random
-
+from constants import *
 server = "192.168.164.219"  #ip adress we need to put in
 server = "192.168.68.133"  #ip adress we need to put in (ariel pc)
 port = 5555
@@ -29,6 +29,13 @@ def make_pos(tup):
         return "reset"
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
 
+def read_stage():
+    curr_stage = 0
+    with open(STAGE_FILE, 'r') as file:
+        curr_stage = int(float(file.read()))
+    return curr_stage
+
+stage = 1
 cris_pos = [
     [[
         random.randint(50, 1550),
@@ -57,8 +64,9 @@ cris_pos = [
         random.randint(100, 630),
     ]]
 ]
+
 scroll = 0
-pos = [(11,634, "Idle", cris_pos[0], scroll), (11,634, "Idle", cris_pos[1], scroll)]
+pos = [(11,634, "Idle", cris_pos[0], scroll, stage), (11,634, "Idle", cris_pos[1], scroll, stage)]
 reset_pos = [(11,634, "Idle", cris_pos[0], scroll), (11,634, "Idle", cris_pos[1], scroll)]
 
 def threaded_client(conn, current_player):

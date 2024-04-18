@@ -30,7 +30,7 @@ def pause_music():
 
 def stop_music():
     pygame.mixer.music.stop()
-STAGE_FILE = "stage.txt"
+
 #def run_other_file(file_path):
     #try:
         #subprocess.run(['python', file_path], check=True)
@@ -281,7 +281,7 @@ def start_stage(plats):
     pass
 def plat_collision_check(player, lst):
     pass
-stage = read_stage()
+stage = start_pos[5]
 plat_lst = []
 music = ""
 match stage:
@@ -354,11 +354,12 @@ while run:
     else:
         world_border = WORLD_LIMIT_RIGHT_PARALAX
     
-    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord, scroll))))
+    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord, scroll, stage))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
     state_cat = cat_pos[2]
     scroll_cat = cat_pos[4]
+    stage_cat = cat_pos[5]
     cris_list_cat = create_crystals(cat_pos[3], "cat")
     cat.update()
     combined_offset = (scroll + scroll_cat)//2
@@ -480,7 +481,7 @@ while run:
         draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
     finish = all_cristals_collected
-    if finish:
+    if finish and (stage == stage_cat):
         if stage < 4:
             stage += 1
             write_stage(stage)
