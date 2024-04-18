@@ -46,10 +46,15 @@ class Player:
         screen.blit(self.frames_dic[state][index], (self.x, self.y))
 
     def move_x(self, state):
-        self.x += SPEED * state
+        if (state == -1 and self.x > WORLD_LIMIT_LEFT) or (state == 1 and self.x < WORLD_LIMIT_RIGHT):
+            self.x += self.horiz_speed * state
         self.update()
+    
     def move_x_with_stick(self, horiz_move):
-        self.x += int(horiz_move * self.horiz_speed)
+        if (horiz_move < 0 and self.x > WORLD_LIMIT_LEFT) or (horiz_move > 0 and self.x < WORLD_LIMIT_RIGHT):
+            self.x += int(horiz_move * self.horiz_speed)
+        self.update()
+        
 
 def flip_images(img_arr):
     flipped_arr = []
