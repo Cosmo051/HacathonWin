@@ -19,7 +19,7 @@ BG = (50, 50, 50)
 BLACK = (0, 0, 0)
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Eternal")
+pygame.display.set_caption("Developing Bonds: A Multiplsyer Journy")
 
 def play_music(path):
     pygame.mixer.music.load(path)
@@ -307,10 +307,18 @@ def draw_static_bg(screen):
     bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(bg_image, (0,0))
 
+def player_on_player(dog1:Player, cat1:Player):
+    if dog1.rect.colliderect(cat1.rect):
+        if dog1.y < cat1.y:
+            dog1.y = cat.y - dog1.height
+    dog.update()
+            
+
+
 all_cristals_collected = False
 play_music("assets\music\\bg_beach_m.mp3")
 while run:
-    clock.tick(10)
+    clock.tick(60)
     # update background
     screen.fill(BG)
 
@@ -459,6 +467,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
+    player_on_player(dog, cat)
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
 stop_music()
