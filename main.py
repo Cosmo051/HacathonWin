@@ -340,12 +340,12 @@ def player_on_player(dog1:Player, cat1:Player):
         dog.is_colieded = False
     dog.update()
             
-
+level_flag = True
 draw_portal = True
 all_cristals_collected = False
 play_music(music)
 while run:
-    clock.tick(30)
+    clock.tick(10)
     # update background
     screen.fill(BG)
 
@@ -444,9 +444,10 @@ while run:
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
         draw_portal = False
-        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:#end of stage
+        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0 and level_flag:#end of stage
             all_cristals_collected = True
-            started = False
+            level_flag = False
+            #started = False
             draw_portal = True
             cris_list_cord = randomize_cris()
             cris_list_dog = create_crystals(cris_list_cord, "dog")
