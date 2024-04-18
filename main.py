@@ -170,7 +170,7 @@ def make_pos(tup):
 portal_width = 600
 portal_height = 600
 portal_x = 2500
-portal_y = 634
+portal_y = 200
 
 def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, offset = 0):
     dog.draw(window, dog_state, index)
@@ -506,7 +506,7 @@ while run:
             ground_image, ground_width, ground_height = load_ground(bg_index)
             play_music(music)
         else:
-            end_game()
+            run = False
         
     # event handler
     for event in pygame.event.get():
