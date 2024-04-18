@@ -19,7 +19,7 @@ BG = (50, 50, 50)
 BLACK = (0, 0, 0)
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Developing Bonds: A Multiplsyer Journy")
+pygame.display.set_caption("ConnectionQuest")
 
 def play_music(path):
     pygame.mixer.music.load(path)
