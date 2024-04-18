@@ -323,7 +323,7 @@ def player_on_player(dog1:Player, cat1:Player):
 all_cristals_collected = False
 play_music(music)
 while run:
-    clock.tick(60)
+    clock.tick(10)
     # update background
     screen.fill(BG)
 
@@ -403,7 +403,6 @@ while run:
         collect_crystal(cris_list_dog, cris_list_cord)
         if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:
             all_cristals_collected = True
-
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
             dog.y = plat.y - plat.height - dog.height
@@ -436,6 +435,7 @@ while run:
         draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
     print(str(pygame.joystick.get_count()))
+    finish = all_cristals_collected
     if finish:
         if stage < 4:
             stage += 1
