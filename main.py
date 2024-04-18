@@ -172,11 +172,12 @@ portal_height = 600
 portal_x = 2500
 portal_y = 200
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, offset = 0):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, offset, draw_portalos):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
     portal = pygame.transform.scale(portal, (portal_width, portal_height))
-    screen.blit(portal, (portal_x - offset, portal_y))
+    if draw_portalos:
+        screen.blit(portal, (portal_x - offset, portal_y))
     pygame.display.update()
 
 
@@ -340,7 +341,7 @@ def player_on_player(dog1:Player, cat1:Player):
     dog.update()
             
 
-
+draw_portal = True
 all_cristals_collected = False
 play_music(music)
 while run:
@@ -442,9 +443,11 @@ while run:
         draw_crystals(screen, cris_list_cat)
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
+        draw_portal = False
         if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:#end of stage
             all_cristals_collected = True
             started = False
+            draw_portal = True
             cris_list_cord = randomize_cris()
             cris_list_dog = create_crystals(cris_list_cord, "dog")
         flag, plat = plat_collision_check(dog, plat_lst)
@@ -518,7 +521,7 @@ while run:
             run = False
     dog.update()
     player_on_player(dog, cat)
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, combined_offset)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, combined_offset, draw_portal)
     # pygame.display.update()
 stop_music()
 pygame.quit()
