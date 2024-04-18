@@ -245,7 +245,21 @@ def collect_crystal(cris_list, cris_cord_list):
             cris_list.remove(cris_list[i])
             break
 
-
+def randomize_cris():
+    cris_cords =     [[
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550)
+    ],[
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+    ]]
+    return cris_cords
 
 
 def draw_platform(plat_lst):
