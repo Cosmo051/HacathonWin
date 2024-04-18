@@ -151,7 +151,6 @@ def draw_ground(offset, image, width, height):
 
 
 
-
 # background code---------------------------------------------------------------------end
 
 
