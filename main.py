@@ -413,7 +413,7 @@ while run:
         dog.y_velocity -= dog.y_gravity
         dog.update()
         for plat in plat_lst:
-            if (dog.jump_height < -dog.y_velocity and dog.y >= GROUND_LEVEL - dog.height) or dog.is_colieded or dog.rect.colliderect(plat.rect):
+            if (dog.jump_height < -dog.y_velocity and dog.y >= GROUND_LEVEL - dog.height) or dog.is_colieded:
                 dog.y_velocity = dog.jump_height
                 jumping = False
                 if dog.rect.colliderect(plat.rect):
