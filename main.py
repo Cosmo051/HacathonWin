@@ -449,6 +449,8 @@ while run:
             level_flag = False
             #started = False
             draw_portal = True
+            run = False
+            continue
             cris_list_cord = randomize_cris()
             cris_list_dog = create_crystals(cris_list_cord, "dog")
         flag, plat = plat_collision_check(dog, plat_lst)
@@ -482,7 +484,7 @@ while run:
     finish = all_cristals_collected
     if finish and (stage == stage_cat):
         if stage < 4:
-            stage += 1
+            stage_cat += 1
             write_stage(stage)
             dog.x = 0
             dog.y = 634
@@ -490,7 +492,7 @@ while run:
             all_cristals_collected = False
             scroll = 0
             stop_music()
-            match stage:
+            match stage_cat:
                 case 1:
                     bg_index = 3
                     plat_lst = plat_lst_1
