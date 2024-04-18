@@ -177,7 +177,7 @@ def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, offset, d
     cat.draw(window, cat_state, index)
     portal = pygame.transform.scale(portal, (portal_width, portal_height))
     if draw_portalos:
-        screen.blit(portal, (portal_x - offset, portal_y))
+        window.blit(portal, (portal_x - offset, portal_y))
     pygame.display.update()
 
 
@@ -509,6 +509,7 @@ while run:
             bg_image = load_static_background(bg_index)
             ground_image, ground_width, ground_height = load_ground(bg_index)
             play_music(music)
+            continue
         else:
             run = False
         
