@@ -444,6 +444,8 @@ while run:
         if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:#end of stage
             all_cristals_collected = True
             started = False
+            cris_list_cord = randomize_cris()
+            cris_list_dog = create_crystals(cris_list_cord, "dog")
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
             dog.y = plat.y - plat.height - dog.height
