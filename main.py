@@ -445,7 +445,7 @@ while run:
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
         draw_portal = False
-        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0 and level_flag:#end of stage
+        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:#end of stage
             all_cristals_collected = True
             level_flag = False
             #started = False
@@ -488,6 +488,7 @@ while run:
             dog.x = 0
             dog.y = 634
             finish = False
+            all_cristals_collected = False
             scroll = 0
             stop_music()
             match stage:
