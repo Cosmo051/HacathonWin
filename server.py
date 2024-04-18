@@ -3,7 +3,7 @@ from _thread import *
 import sys
 import random
 
-server = "192.168.164.124"  #ip adress we need to put in
+server = "192.168.164.99"  #ip adress we need to put in
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#blackbox
