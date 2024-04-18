@@ -9,8 +9,9 @@ from platformer import *
 from cristal import *
 import random
 from player import *
-pygame.joystick.init()
 pygame.init()
+pygame.joystick.init()
+pygame.mixer.init()
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 864
@@ -19,6 +20,16 @@ BLACK = (0, 0, 0)
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Eternal")
+
+def play_music(path):
+    pygame.mixer.music.load(path)
+    pygame.mixer.music.play(-1)
+
+def pause_music():
+    pygame.mixer.music.pause()
+
+def stop_music():
+    pygame.mixer.music.stop()
 STAGE_FILE = "stage.txt"
 #def run_other_file(file_path):
     #try:
@@ -225,11 +236,10 @@ def collect_crystal(cris_list, cris_cord_list):
     for i in range(len(cris_list)):
         if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height) and not cris_list[i].is_collected:
             cris_list[i].is_collected = True
-            print(i)
-            print(cris_cord_list[0][i])
             cris_cord_list[0].remove(cris_cord_list[0][i])
             cris_cord_list[1].remove(cris_cord_list[1][i])
             cris_list.remove(cris_list[i])
+            break
 
 
 portal_width = 600
@@ -297,6 +307,8 @@ def draw_static_bg(screen):
     bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(bg_image, (0,0))
 
+all_cristals_collected = False
+play_music("assets\music\bg_beach_m.mp3")
 while run:
     clock.tick(10)
     # update background
@@ -379,6 +391,8 @@ while run:
         draw_crystals(screen, cris_list_cat)
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
+        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:
+            all_cristals_collected = True
 
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
@@ -447,5 +461,5 @@ while run:
     dog.update()
     redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
     # pygame.display.update()
-
+stop_music()
 pygame.quit()
