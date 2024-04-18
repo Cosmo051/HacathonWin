@@ -29,5 +29,4 @@ class Platform:
         pygame.draw.rect(window, "black", self.rect)
     
     def draw(self, screen:pygame.Surface):
-        screen.blit(self.img, self.rect)
-        self.draw_rect(screen)
+        screen.blit(self.img, (self.x, self.y))
