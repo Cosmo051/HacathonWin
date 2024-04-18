@@ -223,7 +223,7 @@ def move_crystals(cris_list):
 
 def collect_crystal(cris_list, cris_cord_list):
     for i in range(len(cris_list)):
-        if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height):
+        if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height) and not cris_list[i].is_collected:
             cris_list[i].is_collected = True
             print(i)
             print(cris_cord_list[0][i])
