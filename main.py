@@ -320,6 +320,7 @@ def plat_collision_check(player, plat_list):
 def load_static_background(index):
     image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{index}/background.png")
     image = pygame.transform.scale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    return image
 
 bg_image = load_static_background(bg_index)
 bg_images, bg_width = load_bg_images(bg_index)
