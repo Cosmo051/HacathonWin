@@ -167,12 +167,16 @@ def make_pos(tup):
         return "reset"
     return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
 
+portal_width = 600
+portal_height = 600
+portal_x = 2500
+portal_y = 634
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, offset = 0):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
-    portal = pygame.transform.scale(portal, (300, 300))
-    screen.blit(portal, (2500, 634))
+    portal = pygame.transform.scale(portal, (portal_width, portal_height))
+    screen.blit(portal, (portal_x - offset, portal_y))
     pygame.display.update()
 
 
@@ -242,18 +246,16 @@ def collect_crystal(cris_list, cris_cord_list):
             break
 
 
-portal_width = 600
-portal_height = 600
-portal_x = 1500
-portal_y = 634
+
 
 def draw_platform(plat_lst):
     for plat in plat_lst:
         plat.draw(screen)
 
-def on_portal(dog:Player, cat:Player, scroll):
-    portal_rect = pygame.rect.Rect(portal_x, portal_y, portal_width, portal_height)
-    if portal_rect.colliderect(dog.get_rect()) or portal_rect.colliderect(cat.get_rect()):
+def on_portal(dog:Player, cat:Player, offset):
+    portal_rect = pygame.rect.Rect(portal_x - offset, portal_y, portal_width, portal_height)
+    pygame.draw.rect(screen, "black", portal_rect)
+    if portal_rect.colliderect(dog.get_rect()) and portal_rect.colliderect(cat.get_rect()):
         return True
     return False
 
@@ -305,17 +307,18 @@ def plat_collision_check(player, plat_list):
 bg_images, bg_width = load_bg_images(bg_index)
 ground_image, ground_width, ground_height = load_ground(bg_index)
 
-def draw_static_bg(screen):
-    bg_image = pygame.image.load(
-            f"assets/backgrounds-assets/_PNG/{bg_index}/background.png"
-        )
-    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+bg_image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{bg_index}/background.png")
+bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+def draw_static_bg(screen, bg_image):
     screen.blit(bg_image, (0,0))
 
 def player_on_player(dog1:Player, cat1:Player):
     if dog1.rect.colliderect(cat1.rect):
+        dog.is_colieded = True
         if dog1.y < cat1.y:
             dog1.y = cat.y - dog1.height
+    else:
+        dog.is_colieded = False
     dog.update()
             
 
@@ -349,11 +352,23 @@ while run:
         else:
             state_dog = "Idle"
         if key[pygame.K_SPACE]:
-            jumping = True
+            for plat in plat_lst:
+                if dog.rect.colliderect(plat.rect):
+                    dog.is_colieded = True
+                else:
+                    dog.is_colieded = False
+                if dog.y >= GROUND_LEVEL - dog.height or dog.is_colieded:
+                    jumping = True
     else:
         for joystick in joysticks:
             if joystick.get_button(0):
-                jumping = True
+                for plat in plat_lst:
+                    if dog.rect.colliderect(plat.rect):
+                        dog.is_colieded = True
+                    else:
+                        dog.is_colieded = False
+                    if dog.y >= GROUND_LEVEL - dog.height or dog.is_colieded:
+                        jumping = True
             
             #player movement with stick
             horiz_move = joystick.get_axis(0)
@@ -373,9 +388,12 @@ while run:
         dog.y -= dog.y_velocity
         dog.y_velocity -= dog.y_gravity
         dog.update()
-        if dog.jump_height < -dog.y_velocity:
-            dog.y_velocity = dog.jump_height
-            jumping = False
+        for plat in plat_lst:
+            if (dog.jump_height < -dog.y_velocity and dog.y >= GROUND_LEVEL - dog.height) or dog.rect.colliderect(plat.rect):
+                dog.y_velocity = dog.jump_height
+                jumping = False
+                if dog.rect.colliderect(plat.rect):
+                    dog.y = plat.y - dog.height
         dog.update()
 
     # show frame image
@@ -395,7 +413,7 @@ while run:
         dog.x = 0
     
     if started:
-        draw_static_bg(screen)
+        draw_static_bg(screen, bg_image)
         draw_platform(plat_lst)
         draw_crystals(screen, cris_list_dog)
         draw_crystals(screen, cris_list_cat)
