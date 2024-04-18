@@ -23,7 +23,12 @@ GROUND_LEVEL = 634
 GROUND_LEVEL_STATIC_BG = 650
 DOG_SPRITE_WIDTH = 48
 CAT_SPRITE_WIDTH = 48
-WALKING_LIMIT = 1500#max X for cat and dog
+WORLD_LIMIT_LEFT = 10
+WORLD_LIMIT_RIGHT = 3000
 
 CRIS_WIDTH = 48
 CRIS_HEIGHT = 48
+BITCH_MUSIC = "assets\music\\bg_beach_m.mp3"
+MUSHROOM_TRANS = "assets\music\\bg_music.mp3"
+SCARY_SOUND = "assets\music\\bg_h_music.mp3"
+SAGOL_SOUND = "assets\music\\bg_music.mp3"

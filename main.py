@@ -244,7 +244,7 @@ def collect_crystal(cris_list, cris_cord_list):
 
 portal_width = 600
 portal_height = 600
-portal_x = 500
+portal_x = 1500
 portal_y = 634
 
 def draw_platform(plat_lst):
@@ -266,19 +266,24 @@ def plat_collision_check(player, lst):
     pass
 stage = read_stage()
 plat_lst = []
+music = ""
 match stage:
     case 1:
         bg_index = 3
         plat_lst = plat_lst_1
+        music = SCARY_SOUND
     case 2:
         bg_index = 2
         plat_lst = plat_lst_2
+        music = SAGOL_SOUND
     case 3:
         bg_index = 4
         plat_lst = plat_lst_3
+        music = MUSHROOM_TRANS
     case 4:
         bg_index = 1
         plat_lst = plat_lst_4
+        music = BITCH_MUSIC
 
 joysticks = []
 move_left = False
@@ -297,8 +302,8 @@ def plat_collision_check(player, plat_list):
 
 
 
-bg_images, bg_width = load_bg_images(stage)
-ground_image, ground_width, ground_height = load_ground(stage)
+bg_images, bg_width = load_bg_images(bg_index)
+ground_image, ground_width, ground_height = load_ground(bg_index)
 
 def draw_static_bg(screen):
     bg_image = pygame.image.load(
@@ -316,7 +321,7 @@ def player_on_player(dog1:Player, cat1:Player):
 
 
 all_cristals_collected = False
-play_music("assets\music\\bg_beach_m.mp3")
+play_music(music)
 while run:
     clock.tick(60)
     # update background
@@ -335,12 +340,10 @@ while run:
     if len(joysticks) == 0:
         if key[pygame.K_d]:
             state_dog = "Walk"
-            if dog.x < WALKING_LIMIT:
-                dog.x += dog.horiz_speed
+            dog.move_x(1)
         elif key[pygame.K_a]:
             state_dog = "WalkBack"
-            if dog.x >= 0:
-                dog.x -= dog.horiz_speed
+            dog.move_x(-1)
         elif key[pygame.K_e]:
             finish = True
         else:
@@ -356,13 +359,12 @@ while run:
             horiz_move = joystick.get_axis(0)
             if horiz_move > 0.05:
                 state_dog = "Walk"
+                dog.move_x_with_stick(horiz_move)
             elif horiz_move < -0.05:
                 state_dog = "WalkBack"
+                dog.move_x_with_stick(horiz_move)
             else:
                 state_dog = "Idle"
-            
-            if (0 <= dog.x <= WALKING_LIMIT):
-                dog.x += int(dog.horiz_speed * horiz_move)
 
 
     
@@ -441,21 +443,27 @@ while run:
             dog.x = 0
             dog.y = 634
             finish = False
+            stop_music()
             match stage:
                 case 1:
                     bg_index = 3
                     plat_lst = plat_lst_1
+                    music = SCARY_SOUND
                 case 2:
                     bg_index = 2
                     plat_lst = plat_lst_2
+                    music = SAGOL_SOUND
                 case 3:
                     bg_index = 4
                     plat_lst = plat_lst_3
+                    music = MUSHROOM_TRANS
                 case 4:
                     bg_index = 1
                     plat_lst = plat_lst_4
+                    music = BITCH_MUSIC
             bg_images, bg_width = load_bg_images(stage)
             ground_image, ground_width, ground_height = load_ground(stage)
+            play_music(music)
         else:
             end_game()
         

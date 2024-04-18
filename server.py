@@ -57,8 +57,8 @@ cris_pos = [
     ]]
 ]
 scroll = 0
-pos = [(1,634, "Idle", cris_pos[0], scroll), (1,634, "Idle", cris_pos[1], scroll)]
-reset_pos = [(1,634, "Idle", cris_pos[0], scroll), (1,634, "Idle", cris_pos[1], scroll)]
+pos = [(11,634, "Idle", cris_pos[0], scroll), (11,634, "Idle", cris_pos[1], scroll)]
+reset_pos = [(11,634, "Idle", cris_pos[0], scroll), (11,634, "Idle", cris_pos[1], scroll)]
 
 def threaded_client(conn, current_player):
     conn.send(str.encode(make_pos(pos[current_player])))
