@@ -345,7 +345,7 @@ draw_portal = True
 all_cristals_collected = False
 play_music(music)
 while run:
-    clock.tick(10)
+    clock.tick(30)
     # update background
     screen.fill(BG)
 
@@ -413,7 +413,7 @@ while run:
         dog.y_velocity -= dog.y_gravity
         dog.update()
         for plat in plat_lst:
-            if (dog.jump_height < -dog.y_velocity and dog.y >= GROUND_LEVEL - dog.height) or dog.is_colieded:
+            if (dog.jump_height < -dog.y_velocity and dog.y >= GROUND_LEVEL - dog.height) or dog.rect.colliderect(plat.rect):
                 dog.y_velocity = dog.jump_height
                 jumping = False
                 if dog.rect.colliderect(plat.rect):
