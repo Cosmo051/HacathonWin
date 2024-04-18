@@ -35,7 +35,7 @@ def read_stage():
         curr_stage = int(float(file.read()))
     return curr_stage
 
-stage = 1
+stage = random.randint(1, 4)
 cris_pos = [
     [[
         random.randint(50, 1550),
