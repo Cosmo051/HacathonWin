@@ -303,14 +303,17 @@ def plat_collision_check(player, plat_list):
     return False, None
 
 
+def load_static_background(index):
+    image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{index}/background.png")
+    image = pygame.transform.scale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
+bg_image = load_static_background(bg_index)
 bg_images, bg_width = load_bg_images(bg_index)
 ground_image, ground_width, ground_height = load_ground(bg_index)
 
-bg_image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{bg_index}/background.png")
-bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-def draw_static_bg(screen, bg_image):
-    screen.blit(bg_image, (0,0))
+
+def draw_static_bg(screen, image):
+    screen.blit(image, (0,0))
 
 def player_on_player(dog1:Player, cat1:Player):
     if dog1.rect.colliderect(cat1.rect):
@@ -424,15 +427,13 @@ while run:
         draw_crystals(screen, cris_list_cat)
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
-        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:
+        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:#end of stage
             all_cristals_collected = True
+            started = False
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
             dog.y = plat.y - plat.height - dog.height
         
-        if dog.y <= 0 and cat.y <= 0:
-            started = False
-            finish = True
     else:
         if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
             scroll += SCROLL
@@ -484,8 +485,9 @@ while run:
                     bg_index = 1
                     plat_lst = plat_lst_4
                     music = BITCH_MUSIC
-            bg_images, bg_width = load_bg_images(stage)
-            ground_image, ground_width, ground_height = load_ground(stage)
+            bg_images, bg_width = load_bg_images(bg_index)
+            bg_image = load_static_background(bg_index)
+            ground_image, ground_width, ground_height = load_ground(bg_index)
             play_music(music)
         else:
             end_game()
@@ -499,7 +501,7 @@ while run:
             run = False
     dog.update()
     player_on_player(dog, cat)
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, combined_offset)
     # pygame.display.update()
 stop_music()
 pygame.quit()
