@@ -11,6 +11,7 @@ class Player:
         self.y_velocity = self.jump_height
         self.width = width * (SCALE - 1)
         self.height = height * (SCALE - 1)
+        self.is_colieded = False
         self.rect = pygame.Rect(x, y + height, self.width, self.height)
         self.horiz_speed = 50
         self.frames_dic = {
