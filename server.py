@@ -36,11 +36,11 @@ cris_pos = [
         random.randint(50, 1550),
         random.randint(50, 1550)
     ],[
-        random.randint(50, 630),
-        random.randint(50, 630),
-        random.randint(50, 630),
-        random.randint(50, 630),
-        random.randint(50, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
     ]],
     [[
         random.randint(50, 1550),
@@ -49,11 +49,11 @@ cris_pos = [
         random.randint(50, 1550),
         random.randint(50, 1550)
     ],[
-        random.randint(50, 630),
-        random.randint(50, 630),
-        random.randint(50, 630),
-        random.randint(50, 630),
-        random.randint(50, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
+        random.randint(100, 630),
     ]]
 ]
 scroll = 0
