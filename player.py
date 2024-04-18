@@ -5,7 +5,7 @@ class Player:
     def __init__(self, x, y, width, height, name):
         self.x = x
         self.y = y
-        self.y_gravity = 2
+        self.y_gravity = 4
         self.min_y = GROUND_LEVEL
         self.jump_height = 30
         self.y_velocity = self.jump_height

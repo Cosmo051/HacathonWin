@@ -308,7 +308,7 @@ def draw_static_bg(screen):
     screen.blit(bg_image, (0,0))
 
 all_cristals_collected = False
-play_music("assets\music\bg_beach_m.mp3")
+play_music("assets\music\\bg_beach_m.mp3")
 while run:
     clock.tick(10)
     # update background
