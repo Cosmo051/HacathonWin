@@ -4,6 +4,7 @@ import sys
 import random
 
 server = "192.168.164.219"  #ip adress we need to put in
+server = "192.168.164.133"  #ip adress we need to put in (ariel pc)
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#blackbox
