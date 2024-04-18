@@ -22,12 +22,12 @@ def read_pos(str:str):
     if str == "reset":
         return "reset"
     str = str.split("_")
-    return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4])
+    return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4]), int(str[5])
 
 def make_pos(tup):
     if tup == "reset":
         return "reset"
-    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
+    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4]) + "_" + str(tup[5])
 
 cris_pos = [
     [[
