@@ -46,13 +46,13 @@ class Player:
     def draw(self, screen, state, index):
         screen.blit(self.frames_dic[state][index], (self.x, self.y))
 
-    def move_x(self, state):
-        if (state == -1 and self.x > WORLD_LIMIT_LEFT) or (state == 1 and self.x < WORLD_LIMIT_RIGHT):
+    def move_x(self, state, border):
+        if (state == -1 and self.x > WORLD_LIMIT_LEFT) or (state == 1 and self.x < border):
             self.x += self.horiz_speed * state
         self.update()
     
-    def move_x_with_stick(self, horiz_move):
-        if (horiz_move < 0 and self.x > WORLD_LIMIT_LEFT) or (horiz_move > 0 and self.x < WORLD_LIMIT_RIGHT):
+    def move_x_with_stick(self, horiz_move, border):
+        if (horiz_move < 0 and self.x > WORLD_LIMIT_LEFT) or (horiz_move > 0 and self.x < border):
             self.x += int(horiz_move * self.horiz_speed)
         self.update()
         

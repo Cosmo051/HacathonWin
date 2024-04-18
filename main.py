@@ -330,6 +330,11 @@ while run:
     # update background
     screen.fill(BG)
 
+    if started:
+        world_border = WORLD_LIMIT_RIGHT_STAGE
+    else:
+        world_border = WORLD_LIMIT_RIGHT_PARALAX
+    
     cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord, scroll))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
@@ -343,10 +348,10 @@ while run:
     if len(joysticks) == 0:
         if key[pygame.K_d]:
             state_dog = "Walk"
-            dog.move_x(1)
+            dog.move_x(1, world_border)
         elif key[pygame.K_a]:
             state_dog = "WalkBack"
-            dog.move_x(-1)
+            dog.move_x(-1, world_border)
         elif key[pygame.K_e]:
             finish = True
         else:
@@ -374,10 +379,10 @@ while run:
             horiz_move = joystick.get_axis(0)
             if horiz_move > 0.05:
                 state_dog = "Walk"
-                dog.move_x_with_stick(horiz_move)
+                dog.move_x_with_stick(horiz_move, world_border)
             elif horiz_move < -0.05:
                 state_dog = "WalkBack"
-                dog.move_x_with_stick(horiz_move)
+                dog.move_x_with_stick(horiz_move, world_border)
             else:
                 state_dog = "Idle"
 
@@ -430,23 +435,23 @@ while run:
             finish = True
     else:
         if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
-            scroll += 5
+            scroll += SCROLL
         if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
-            scroll -= 5
+            scroll -= SCROLL
         
         if (
         cat.get_x() > SCREEN_WIDTH / 2
         and dog.get_x() > SCREEN_WIDTH / 2
         and key[pygame.K_d]
         ):
-            scroll += 5
+            scroll += SCROLL
 
         if (
         cat.get_x() < SCREEN_WIDTH / 2
         and dog.get_x() < SCREEN_WIDTH / 2
         and key[pygame.K_a]
         ):
-            scroll -= 5
+            scroll -= SCROLL
         
         combined_offset = (scroll + scroll_cat)//2
         draw_bg(combined_offset, bg_images, bg_width)
