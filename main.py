@@ -478,7 +478,6 @@ while run:
         draw_bg(combined_offset, bg_images, bg_width)
         draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
-    print(str(pygame.joystick.get_count()))
     finish = all_cristals_collected
     if finish:
         if stage < 4:
@@ -487,6 +486,7 @@ while run:
             dog.x = 0
             dog.y = 634
             finish = False
+            scroll = 0
             stop_music()
             match stage:
                 case 1:
