@@ -9,8 +9,9 @@ from platformer import *
 from cristal import *
 import random
 from player import *
-pygame.joystick.init()
 pygame.init()
+pygame.joystick.init()
+pygame.mixer.init()
 
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 864
@@ -18,8 +19,18 @@ BG = (50, 50, 50)
 BLACK = (0, 0, 0)
 portal_img = pygame.image.load("assets\\backgrounds-assets\portal.png")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Eternal")
-STAGE_FILE = "stage.txt"
+pygame.display.set_caption("ConnectionQuest")
+
+def play_music(path):
+    pygame.mixer.music.load(path)
+    pygame.mixer.music.play(-1)
+
+def pause_music():
+    pygame.mixer.music.pause()
+
+def stop_music():
+    pygame.mixer.music.stop()
+
 #def run_other_file(file_path):
     #try:
         #subprocess.run(['python', file_path], check=True)
@@ -140,7 +151,6 @@ def draw_ground(offset, image, width, height):
 
 
 
-
 # background code---------------------------------------------------------------------end
 
 
@@ -149,19 +159,24 @@ def read_pos(str:str):
     if str == "reset":
         return "reset"
     str = str.split("_")
-    return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4])
+    return int(str[0]), int(str[1]), str[2], eval(str[3]), int(str[4]), int(str[5])
 
 def make_pos(tup):
     if tup == "reset":
         return "reset"
-    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4])
+    return str(tup[0]) + "_" + str(tup[1]) + "_" + str(tup[2]) + "_" + str(tup[3]) + "_" + str(tup[4]) + "_" + str(tup[5])
 
+portal_width = 600
+portal_height = 600
+portal_x = 2500
+portal_y = 200
 
-def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal):
+def redrawWindow(window, dog, cat, dog_state, cat_state, index,portal, offset, draw_portalos):
     dog.draw(window, dog_state, index)
     cat.draw(window, cat_state, index)
-    portal = pygame.transform.scale(portal, (300, 300))
-    screen.blit(portal, (2500, 634))
+    portal = pygame.transform.scale(portal, (portal_width, portal_height))
+    if draw_portalos:
+        window.blit(portal, (portal_x - offset, portal_y))
     pygame.display.update()
 
 
@@ -223,27 +238,38 @@ def move_crystals(cris_list):
 
 def collect_crystal(cris_list, cris_cord_list):
     for i in range(len(cris_list)):
-        if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height):
+        if (cris_list[i].get_X() > dog.x and cris_list[i].get_X() < dog.x + dog.width) and (cris_list[i].get_y() > dog.y and cris_list[i].get_y() < dog.y + dog.height) and not cris_list[i].is_collected:
             cris_list[i].is_collected = True
-            print(i)
-            print(cris_cord_list[0][i])
             cris_cord_list[0].remove(cris_cord_list[0][i])
             cris_cord_list[1].remove(cris_cord_list[1][i])
             cris_list.remove(cris_list[i])
+            break
 
+def randomize_cris():
+    cris_cords =     [[
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550),
+        random.randint(50, 1550)
+    ],[
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+        random.randint(50, 630),
+    ]]
+    return cris_cords
 
-portal_width = 600
-portal_height = 600
-portal_x = 500
-portal_y = 634
 
 def draw_platform(plat_lst):
     for plat in plat_lst:
         plat.draw(screen)
 
-def on_portal(dog:Player, cat:Player, scroll):
-    portal_rect = pygame.rect.Rect(portal_x, portal_y, portal_width, portal_height)
-    if portal_rect.colliderect(dog.get_rect()) or portal_rect.colliderect(cat.get_rect()):
+def on_portal(dog:Player, cat:Player, offset):
+    portal_rect = pygame.rect.Rect(portal_x - offset, portal_y, portal_width, portal_height)
+    pygame.draw.rect(screen, "black", portal_rect)
+    if portal_rect.colliderect(dog.get_rect()) and portal_rect.colliderect(cat.get_rect()):
         return True
     return False
 
@@ -254,21 +280,26 @@ def start_stage(plats):
     pass
 def plat_collision_check(player, lst):
     pass
-stage = read_stage()
+stage = start_pos[5]
 plat_lst = []
+music = ""
 match stage:
     case 1:
         bg_index = 3
         plat_lst = plat_lst_1
+        music = SCARY_SOUND
     case 2:
         bg_index = 2
         plat_lst = plat_lst_2
+        music = SAGOL_SOUND
     case 3:
         bg_index = 4
         plat_lst = plat_lst_3
+        music = MUSHROOM_TRANS
     case 4:
         bg_index = 1
         plat_lst = plat_lst_4
+        music = BITCH_MUSIC
 
 joysticks = []
 move_left = False
@@ -286,27 +317,48 @@ def plat_collision_check(player, plat_list):
     return False, None
 
 
+def load_static_background(index):
+    image = pygame.image.load(f"assets/backgrounds-assets/_PNG/{index}/background.png")
+    image = pygame.transform.scale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    return image
 
-bg_images, bg_width = load_bg_images(stage)
-ground_image, ground_width, ground_height = load_ground(stage)
+bg_image = load_static_background(bg_index)
+bg_images, bg_width = load_bg_images(bg_index)
+ground_image, ground_width, ground_height = load_ground(bg_index)
 
-def draw_static_bg(screen):
-    bg_image = pygame.image.load(
-            f"assets/backgrounds-assets/_PNG/{bg_index}/background.png"
-        )
-    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-    screen.blit(bg_image, (0,0))
 
+def draw_static_bg(screen, image):
+    screen.blit(image, (0,0))
+
+def player_on_player(dog1:Player, cat1:Player):
+    if dog1.rect.colliderect(cat1.rect):
+        dog.is_colieded = True
+        if dog1.y < cat1.y:
+            dog1.y = cat.y - dog1.height
+    else:
+        dog.is_colieded = False
+    dog.update()
+            
+level_flag = True
+draw_portal = True
+all_cristals_collected = False
+play_music(music)
 while run:
     clock.tick(10)
     # update background
     screen.fill(BG)
 
-    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord, scroll))))
+    if started:
+        world_border = WORLD_LIMIT_RIGHT_STAGE
+    else:
+        world_border = WORLD_LIMIT_RIGHT_PARALAX
+    
+    cat_pos = read_pos(n.send(make_pos((dog.x, dog.y, state_dog, cris_list_cord, scroll, stage))))
     cat.x = cat_pos[0]
     cat.y = cat_pos[1]
     state_cat = cat_pos[2]
     scroll_cat = cat_pos[4]
+    stage_cat = cat_pos[5]
     cris_list_cat = create_crystals(cat_pos[3], "cat")
     cat.update()
     combined_offset = (scroll + scroll_cat)//2
@@ -315,34 +367,43 @@ while run:
     if len(joysticks) == 0:
         if key[pygame.K_d]:
             state_dog = "Walk"
-            if dog.x < WALKING_LIMIT:
-                dog.x += dog.horiz_speed
+            dog.move_x(1, world_border)
         elif key[pygame.K_a]:
             state_dog = "WalkBack"
-            if dog.x >= 0:
-                dog.x -= dog.horiz_speed
+            dog.move_x(-1, world_border)
         elif key[pygame.K_e]:
             finish = True
         else:
             state_dog = "Idle"
         if key[pygame.K_SPACE]:
-            jumping = True
+            for plat in plat_lst:
+                if dog.rect.colliderect(plat.rect):
+                    dog.is_colieded = True
+                else:
+                    dog.is_colieded = False
+                if dog.y >= GROUND_LEVEL - dog.height or dog.is_colieded:
+                    jumping = True
     else:
         for joystick in joysticks:
             if joystick.get_button(0):
-                jumping = True
+                for plat in plat_lst:
+                    if dog.rect.colliderect(plat.rect):
+                        dog.is_colieded = True
+                    else:
+                        dog.is_colieded = False
+                    if dog.y >= GROUND_LEVEL - dog.height or dog.is_colieded:
+                        jumping = True
             
             #player movement with stick
             horiz_move = joystick.get_axis(0)
             if horiz_move > 0.05:
                 state_dog = "Walk"
+                dog.move_x_with_stick(horiz_move, world_border)
             elif horiz_move < -0.05:
                 state_dog = "WalkBack"
+                dog.move_x_with_stick(horiz_move, world_border)
             else:
                 state_dog = "Idle"
-            
-            if (0 <= dog.x <= WALKING_LIMIT):
-                dog.x += int(dog.horiz_speed * horiz_move)
 
 
     
@@ -351,9 +412,12 @@ while run:
         dog.y -= dog.y_velocity
         dog.y_velocity -= dog.y_gravity
         dog.update()
-        if dog.jump_height < -dog.y_velocity:
-            dog.y_velocity = dog.jump_height
-            jumping = False
+        for plat in plat_lst:
+            if (dog.jump_height < -dog.y_velocity and dog.y >= GROUND_LEVEL - dog.height) or dog.rect.colliderect(plat.rect):
+                dog.y_velocity = dog.jump_height
+                jumping = False
+                if dog.rect.colliderect(plat.rect):
+                    dog.y = plat.y - dog.height
         dog.update()
 
     # show frame image
@@ -373,69 +437,85 @@ while run:
         dog.x = 0
     
     if started:
-        draw_static_bg(screen)
+        draw_static_bg(screen, bg_image)
         draw_platform(plat_lst)
         draw_crystals(screen, cris_list_dog)
         draw_crystals(screen, cris_list_cat)
         move_crystals(cris_list_dog)
         collect_crystal(cris_list_dog, cris_list_cord)
-
+        draw_portal = False
+        if len(cris_list_dog) == 0 and len(cris_list_cat) == 0:#end of stage
+            all_cristals_collected = True
+            level_flag = False
+            #started = False
+            draw_portal = True
+            run = False
+            continue
+            cris_list_cord = randomize_cris()
+            cris_list_dog = create_crystals(cris_list_cord, "dog")
         flag, plat = plat_collision_check(dog, plat_lst)
         if flag:
             dog.y = plat.y - plat.height - dog.height
         
-        if dog.y <= 0 and cat.y <= 0:
-            started = False
-            finish = True
     else:
         if(cat.get_x() > SCREEN_WIDTH / 2 and dog.get_x() > SCREEN_WIDTH / 2 and horiz_move > 0.05):
-            scroll += 5
+            scroll += SCROLL
         if(cat.get_x() < SCREEN_WIDTH / 2 and dog.get_x() < SCREEN_WIDTH / 2 and horiz_move < -0.05):
-            scroll -= 5
+            scroll -= SCROLL
         
         if (
         cat.get_x() > SCREEN_WIDTH / 2
         and dog.get_x() > SCREEN_WIDTH / 2
         and key[pygame.K_d]
         ):
-            scroll += 5
+            scroll += SCROLL
 
         if (
         cat.get_x() < SCREEN_WIDTH / 2
         and dog.get_x() < SCREEN_WIDTH / 2
         and key[pygame.K_a]
         ):
-            scroll -= 5
+            scroll -= SCROLL
         
         combined_offset = (scroll + scroll_cat)//2
         draw_bg(combined_offset, bg_images, bg_width)
         draw_ground(combined_offset, ground_image, ground_width, ground_height)
     
-    print(str(pygame.joystick.get_count()))
-    if finish:
+    finish = all_cristals_collected
+    if finish and (stage == stage_cat):
         if stage < 4:
-            stage += 1
+            stage_cat += 1
             write_stage(stage)
             dog.x = 0
             dog.y = 634
             finish = False
-            match stage:
+            all_cristals_collected = False
+            scroll = 0
+            stop_music()
+            match stage_cat:
                 case 1:
                     bg_index = 3
                     plat_lst = plat_lst_1
+                    music = SCARY_SOUND
                 case 2:
                     bg_index = 2
                     plat_lst = plat_lst_2
+                    music = SAGOL_SOUND
                 case 3:
                     bg_index = 4
                     plat_lst = plat_lst_3
+                    music = MUSHROOM_TRANS
                 case 4:
                     bg_index = 1
                     plat_lst = plat_lst_4
-            bg_images, bg_width = load_bg_images(stage)
-            ground_image, ground_width, ground_height = load_ground(stage)
+                    music = BITCH_MUSIC
+            bg_images, bg_width = load_bg_images(bg_index)
+            bg_image = load_static_background(bg_index)
+            ground_image, ground_width, ground_height = load_ground(bg_index)
+            play_music(music)
+            continue
         else:
-            end_game()
+            run = False
         
     # event handler
     for event in pygame.event.get():
@@ -445,7 +525,8 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     dog.update()
-    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img)
+    player_on_player(dog, cat)
+    redrawWindow(screen, dog, cat, state_dog, state_cat, i, portal_img, combined_offset, draw_portal)
     # pygame.display.update()
-
+stop_music()
 pygame.quit()
