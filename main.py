@@ -215,7 +215,7 @@ def gravitational_force(player: Player):
             player.y = player.y + GRAVITY
 
 while run:
-    clock.tick(10)
+    clock.tick(30)
     # update background
     screen.fill(BG)
 
